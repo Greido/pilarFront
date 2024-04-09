@@ -1,5 +1,9 @@
-import Image from "next/image";
+import CustomToolbar from "@/src/components/Toolbar";
 
-export default function Home() {
-  return <></>;
+export default function page() {
+  return (
+    <>
+      <CustomToolbar></CustomToolbar>
+    </>
+  );
 }

@@ -1,13 +1,8 @@
+import Cards from "@/src/components/Cards";
 import React from "react";
-import Home from "../ui/home.jsx";
-function page() {
-  const data = "Hola mundo";
 
-  return (
-    <div>
-      <Home data={data} />
-    </div>
-  );
+function Home() {
+  return <Cards />;
 }
 
-export default page;
+export default Home;
