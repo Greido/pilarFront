@@ -1,9 +1,19 @@
+"use client";
 import CustomToolbar from "@/src/components/Toolbar";
+import HomeCard from "@/src/components/HomeCard";
+import Carrousel from "@/src/components/Carrousel";
 
-export default function page() {
+export default function Page() {
   return (
     <>
-      <CustomToolbar></CustomToolbar>
+      <style jsx global>{`
+        body {
+          overflow-x: hidden;
+        }
+      `}</style>
+      <CustomToolbar />
+      <HomeCard />
+      <Carrousel />
     </>
   );
 }
