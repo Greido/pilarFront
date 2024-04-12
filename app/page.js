@@ -1,7 +1,6 @@
 "use client";
 import CustomToolbar from "@/src/components/Toolbar";
 import HomeCard from "@/src/components/HomeCard";
-import Carrousel from "@/src/components/Carrousel";
 
 export default function Page() {
   return (
@@ -13,7 +12,6 @@ export default function Page() {
       `}</style>
       <CustomToolbar />
       <HomeCard />
-      <Carrousel />
     </>
   );
 }
