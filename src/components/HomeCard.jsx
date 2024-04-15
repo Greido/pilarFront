@@ -49,6 +49,7 @@ function HomeCard() {
             <Button
               sx={{ bgcolor: "#8B322C", flexGrow: 1 }}
               variant="contained"
+              color="error"
               onClick={handleEmpresaClick}
             >
               Registrarme como empresa
@@ -58,6 +59,7 @@ function HomeCard() {
             <Button
               sx={{ bgcolor: "#8B322C", marginTop: 3 }}
               variant="contained"
+              color="error"
               onClick={handleUsuarioClick}
             >
               Registrarme como usuario
