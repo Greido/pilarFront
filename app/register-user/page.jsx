@@ -47,7 +47,16 @@ function Registrousuarios() {
         userData
       );
 
-      console.log(response.data); // Imprime la respuesta del servidor en la consola
+      console.log(response.status); // Imprime la respuesta del servidor en la consola
+
+      if (response.status === 200) {
+        alert("Usuario registrado correctamente");
+      }
+      if (response.status === 202) {
+        alert("Correo ya registrado");
+      }
+
+      //console.log(response.data); // Imprime la respuesta del servidor en la consola
 
       setEmail(""); // Restablece el estado de correo electrónico
       setUsername(""); // Restablece el estado de nombre de usuario
