@@ -10,11 +10,11 @@ function Home() {
             <h1 className="uppercase text-white tracking-wide text-2xl font-bold mt-2">
               Registro de economia
             </h1>
-            <p className="mt-10 text-white font-bold">Administra tu bolsa de trabajo</p>
+            <p className="mt-10 text-white">Administra tu bolsa de trabajo</p>
             <nav className="mt-8">
               <a
                 href="/"
-                className="px-3 py-1 text-white block hover:bg-teal-900 mt-2 hover:text-white-50"
+                className="px-3 py-1 text-white block hover:bg-teal-700 hover:text-white-50 bg-teal-700"
               >
                 Clientes
               </a>
@@ -57,7 +57,7 @@ function Home() {
             </nav>
           </aside>
           <main className="md:w-3/5 xl:w-4/5 px-5 py-10 bg-gray-200">
-            <h2 className="text-3xl font-bold text-red-500 text-center">Personas</h2>
+            <h2 className="text-3xl font-light text-center">Personas</h2>
             <div className="flex flex-col mt-10">
               <div className="py-2 overflow-x-auto">
                 <div className="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
@@ -65,7 +65,7 @@ function Home() {
                     <thead className="bg-gray-100">
                       <tr>
                         <th className="px-6 py-3 border-b border-gray-200 text-left text-xs leading-4 font-medium text-gray-600 uppercase tracking-wider">
-                          Nombre 
+                          Nombre
                         </th>
                         <th className="px-6 py-3 border-b border-gray-200 text-left text-xs leading-4 font-medium text-gray-600 uppercase tracking-wider">
                           Apellido
@@ -74,7 +74,7 @@ function Home() {
                           Disponibilidad
                         </th>
                         <th className="px-6 py-3 border-b border-gray-200 text-left text-xs leading-4 font-medium text-gray-600 uppercase tracking-wider">
-                          Area de especializacion 
+                          Area de especializacion
                         </th>
                         <th className="px-6 py-3 border-b border-gray-200 text-left text-xs leading-4 font-medium text-gray-600 uppercase tracking-wider">
                           Localidad

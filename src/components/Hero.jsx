@@ -30,7 +30,7 @@ function Hero() {
                 className="relative flex h-11 w-full items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max"
               >
                 <span className="relative text-base font-semibold text-white">
-                  Get started
+                  Registro
                 </span>
               </a>
               <a
@@ -38,22 +38,30 @@ function Hero() {
                 className="relative flex h-11 w-full items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:border before:border-transparent before:bg-primary/10 before:bg-gradient-to-b before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 dark:before:border-gray-700 dark:before:bg-gray-800 sm:w-max"
               >
                 <span className="relative text-base font-semibold text-primary dark:text-white">
-                  Learn more
+                  Saber mas
                 </span>
               </a>
             </div>
             <div className="hidden py-8 mt-16 border-y border-gray-100 dark:border-gray-800 sm:flex justify-between">
               <div className="text-left">
                 <h6 className="text-lg font-semibold text-gray-700 dark:text-white">
-                  The lowest price
+                  Oportunidades
                 </h6>
-                <p className="mt-2 text-gray-500">Some text here</p>
+                <p className="mt-2 text-gray-500">
+                  Aqui van a surguir tus oportunidades
+                  <br />
+                  laborales mas increibles
+                </p>
               </div>
               <div className="text-left">
                 <h6 className="text-lg font-semibold text-gray-700 dark:text-white">
-                  The fastest on the market
+                  Contrataciones
                 </h6>
-                <p className="mt-2 text-gray-500">Some text here</p>
+                <p className="mt-2 text-gray-500">
+                  Si sos una empresa <br /> te ofrecemos a nuestros egresados
+                  del
+                  <br /> PoloTecnológico La Rioja
+                </p>
               </div>
               <div className="text-left">
                 <h6 className="text-lg font-semibold text-gray-700 dark:text-white">

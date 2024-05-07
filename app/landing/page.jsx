@@ -73,7 +73,7 @@ function Page() {
                         href="#features"
                         className="block md:px-4 transition hover:text-primary"
                       >
-                        <span>Features</span>
+                        <span>PoloTec</span>
                       </a>
                     </li>
                     <li>
@@ -81,7 +81,7 @@ function Page() {
                         href="#solution"
                         className="block md:px-4 transition hover:text-primary"
                       >
-                        <span>Solution</span>
+                        <span>Autoridades</span>
                       </a>
                     </li>
                     <li>
@@ -89,7 +89,7 @@ function Page() {
                         href="#testimonials"
                         className="block md:px-4 transition hover:text-primary"
                       >
-                        <span>Testimonials</span>
+                        <span>Incubadora</span>
                       </a>
                     </li>
                     <li>
@@ -97,7 +97,7 @@ function Page() {
                         href="#blog"
                         className="block md:px-4 transition hover:text-primary"
                       >
-                        <span>Blog</span>
+                        <span>Polo Gaming</span>
                       </a>
                     </li>
                   </ul>
@@ -105,7 +105,7 @@ function Page() {
                 <div className="mt-12 lg:mt-0">
                   <a
                     href="#"
-                    className="relative flex h-9 w-full items-center justify-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max"
+                    className="relative flex h-9 w-full items-center justif y-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max"
                   >
                     <span className="relative text-sm font-semibold text-white">
                       Registrarse
@@ -120,9 +120,9 @@ function Page() {
 
       <Hero />
       <Features />
-      <Stats />
+      {/* <Stats /> */}
       <Testimonial />
-      <Blog />
+      {/* <Blog /> */}
       <Footer />
     </>
   );
