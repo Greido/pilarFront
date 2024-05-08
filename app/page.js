@@ -1,8 +1,8 @@
 "use client";
-import CustomToolbar from "@/src/components/Toolbar";
-import HomeCard from "@/src/components/HomeCard";
 
-export default function Page() {
+import Page from "./landing/page";
+
+export default function Pages() {
   return (
     <>
       <style jsx global>{`
@@ -10,8 +10,8 @@ export default function Page() {
           overflow-x: hidden;
         }
       `}</style>
-      <CustomToolbar />
-      <HomeCard />
+     
+      <Page />
     </>
   );
 }

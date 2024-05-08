@@ -84,7 +84,7 @@ function Registrousuarios() {
         {/* Grid para organizar el diseño del formulario */}
         <Grid container spacing={2}>
           <Grid item xs={4} sm={4} md={4}>
-            <Link href="/">
+            <Link href="/home-card">
               <Button variant="contained" color="error">
                 Volver
               </Button>

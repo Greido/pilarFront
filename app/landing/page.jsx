@@ -7,6 +7,7 @@ import Features from "@/src/components/Features";
 import Stats from "@/src/components/Stats";
 import Testimonial from "@/src/components/Testimonials";
 import CallToAction from "@/src/components/CallToAction";
+
 function Page() {
   return (
     <>
@@ -104,8 +105,8 @@ function Page() {
                 </div>
                 <div className="mt-12 lg:mt-0">
                   <a
-                    href="#"
-                    className="relative flex h-9 w-full items-center justif y-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max"
+                    href="/home-card"
+                    className="relative flex h-9 w-full items-center justify-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max"
                   >
                     <span className="relative text-sm font-semibold text-white">
                       Registrarse
@@ -129,3 +130,4 @@ function Page() {
 }
 
 export default Page;
+
