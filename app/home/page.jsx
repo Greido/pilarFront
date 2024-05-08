@@ -1,7 +1,20 @@
 "use client";
+import axios from "axios";
 import global from "../../app/global.css";
+import { useEffect, useState } from "react";
 
 function Home() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const seeALl = async () => {
+      axios.get("http://localhost:4000/api/allUsers").then((response) => {
+        setUsers(response.data);
+      });
+    };
+    seeALl();
+  }, []);
+
   return (
     <>
       <body className="min-h-100 bg-gray-200">
@@ -67,6 +80,7 @@ function Home() {
                         <th className="px-6 py-3 border-b border-gray-200 text-left text-xs leading-4 font-medium text-gray-600 uppercase tracking-wider">
                           Nombre
                         </th>
+
                         <th className="px-6 py-3 border-b border-gray-200 text-left text-xs leading-4 font-medium text-gray-600 uppercase tracking-wider">
                           Apellido
                         </th>
@@ -87,6 +101,28 @@ function Home() {
                         </th>
                       </tr>
                     </thead>
+                    {users.map((user) => (
+                      <tr key={user.id}>
+                        <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                          {user.name}
+                        </td>
+                        <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                          {user.surname}
+                        </td>
+                        <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                          {user.surname}
+                        </td>
+                        <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                          {user.areaInteres}
+                        </td>
+                        <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                          {user.localidad}
+                        </td>
+                        <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                          {user.residencia}
+                        </td>
+                      </tr>
+                    ))}
                     <tbody id="listado-clientes" className="bg-white"></tbody>
                   </table>
                 </div>
