@@ -148,9 +148,9 @@ function Registrousuarios() {
           <Grid item mt={15} xs={4} sm={4} md={4}>
             <Link href="/home-card">
               <Button
-                variant="contained"
+                variant="outlined"
                 className="bg-[#9333EA] text-white" // Aplica el color de fondo de Tailwind
-                style={{ borderColor: "#9333EA" }} // Aplica el color del borde
+                style={{ borderColor: "#9333EA", color: "white" }} // Aplica el color del borde
               >
                 Volver
               </Button>
@@ -158,7 +158,7 @@ function Registrousuarios() {
           </Grid>
           {/* Grid item que contiene el formulario */}
           <Grid mt={15} item xs={12} sm={6} md={4}>
-            <Paper>
+            <Paper square={false} elevation={8} sx={{}}>
               {" "}
               {/* Contenedor del formulario con sombra */}
               {/* Título del formulario */}
@@ -210,10 +210,10 @@ function Registrousuarios() {
                 <Button
                   onClick={onSubmit}
                   type="submit"
-                  variant="contained"
+                  variant="outlined"
                   sx={{ mt: 5 }}
                   className="bg-[#9333EA] text-white" // Aplica el color de fondo de Tailwind
-                  style={{ borderColor: "#9333EA" }} // Aplica el color del borde
+                  style={{ borderColor: "#9333EA", color: "black" }} // Aplica el color del borde
                 >
                   Registrarme
                 </Button>
