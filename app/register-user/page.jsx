@@ -147,7 +147,11 @@ function Registrousuarios() {
         <Grid container spacing={2}>
           <Grid item mt={15} xs={4} sm={4} md={4}>
             <Link href="/home-card">
-              <Button variant="outlined" color="error">
+              <Button
+                variant="contained"
+                className="bg-[#9333EA] text-white" // Aplica el color de fondo de Tailwind
+                style={{ borderColor: "#9333EA" }} // Aplica el color del borde
+              >
                 Volver
               </Button>
             </Link>
@@ -207,8 +211,9 @@ function Registrousuarios() {
                   onClick={onSubmit}
                   type="submit"
                   variant="contained"
-                  sx={{ mt: 2 }}
-                  color="error"
+                  sx={{ mt: 5 }}
+                  className="bg-[#9333EA] text-white" // Aplica el color de fondo de Tailwind
+                  style={{ borderColor: "#9333EA" }} // Aplica el color del borde
                 >
                   Registrarme
                 </Button>

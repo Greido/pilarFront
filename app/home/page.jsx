@@ -19,7 +19,7 @@ function Home() {
     <>
       <body className="min-h-100 bg-gray-200">
         <div className="md:flex min-h-screen md:align-top">
-          <aside className="md:w-2/5 lg:w-2/5 xl:w-1/5 bg-red-600 px-5 py-10">
+          <aside className="md:w-2/5 lg:w-2/5 xl:w-1/5 bg-purple-700 px-5 py-10">
             <h1 className="uppercase text-white tracking-wide text-2xl font-bold mt-2">
               Registro de economia
             </h1>
@@ -27,7 +27,7 @@ function Home() {
             <nav className="mt-8">
               <a
                 href="/"
-                className="px-3 py-1 text-white block hover:bg-teal-700 hover:text-white-50 bg-teal-700"
+                className="px-3 py-1 text-white block hover:bg-purple hover:text-white-50 bg-teal-700"
               >
                 Clientes
               </a>
