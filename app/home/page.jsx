@@ -8,9 +8,11 @@ function Home() {
 
   useEffect(() => {
     const seeALl = async () => {
-      axios.get("http://localhost:4000/api/allUsers").then((response) => {
+      try {
+        const response = await axios.get("http://localhost:4000/api/getallBD");
         setUsers(response.data);
-      });
+        console.log(userData.experienciaLP.nivel);
+      } catch (error) {}
     };
     seeALl();
   }, []);
@@ -110,7 +112,9 @@ function Home() {
                           {user.surname}
                         </td>
                         <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                          {user.surname}
+                          {user.experienciaLP && user.experienciaLP.length > 0
+                            ? user.experienciaLP[0].nivel
+                            : ""}
                         </td>
                         <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                           {user.areaInteres}

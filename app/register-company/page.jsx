@@ -8,6 +8,7 @@ import React, { useState } from "react";
 import Box from "@mui/system/Box";
 import axios from "axios";
 import Link from "next/link";
+import landing from "../../app/landing.css";
 
 // Declara un componente de función llamado Registrousuarios
 function Registrousuarios() {
@@ -138,23 +139,27 @@ function Registrousuarios() {
         </nav>
       </header>
       {/* Contenedor principal del formulario */}
-      <Container sx={{ marginTop: 5 }}>
+      <Container sx={{ marginTop: 1 }} s>
         {/* Grid para organizar el diseño del formulario */}
         <Grid container spacing={2}>
-          <Grid item xs={4} sm={4} md={4}>
+          <Grid item mt={15} xs={4} sm={4} md={4}>
             <Link href="/home-card">
-              <Button variant="contained" color="error">
+              <Button
+                variant="outlined"
+                className="bg-[#9333EA] text-white"
+                style={{ borderColor: "#9333EA", color: "white" }} // Aplica el color del borde
+              >
                 Volver
               </Button>
             </Link>
           </Grid>
           {/* Grid item que contiene el formulario */}
-          <Grid item xs={12} sm={6} md={4}>
-            <Paper>
+          <Grid mt={12} item sm={6} md={4}>
+            <Paper square={false} elevation={8} sx={{}}>
               {" "}
               {/* Contenedor del formulario con sombra */}
               {/* Título del formulario */}
-              <Typography sx={{ fontWeight: 600, textAlign: "center" }}>
+              <Typography pt={5} sx={{ fontWeight: 600, textAlign: "center" }}>
                 Registro de empresas
               </Typography>
               {/* Formulario */}
@@ -214,9 +219,10 @@ function Registrousuarios() {
                 <Button
                   onClick={onSubmit}
                   type="submit"
-                  variant="contained"
-                  sx={{ mt: 2 }}
-                  color="error"
+                  variant="cooutlinedntained"
+                  sx={{ mt: 5 }}
+                  className="bg-[#9333EA] text-white" // Aplica el color de fondo de Tailwind
+                  style={{ borderColor: "#9333EA", color: "black" }} // Aplica el color del borde
                 >
                   Registrarme
                 </Button>

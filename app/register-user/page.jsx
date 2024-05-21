@@ -157,7 +157,7 @@ function Registrousuarios() {
             </Link>
           </Grid>
           {/* Grid item que contiene el formulario */}
-          <Grid mt={15} item xs={12} sm={6} md={4}>
+          <Grid mt={12} item sm={6} md={4}>
             <Paper square={false} elevation={8} sx={{}}>
               {" "}
               {/* Contenedor del formulario con sombra */}
