@@ -5,7 +5,7 @@ module.exports = {
       transparent: "transparent",
       current: "currentColor",
       white: "#ffffff",
-      purple: "#9333EA",
+      purple: "#D41931",
       purple2: "#CECEFD",
       metal: "#565584",
       tahiti: "#3ab7bf",

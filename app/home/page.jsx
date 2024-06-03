@@ -1,26 +1,42 @@
 "use client";
 import axios from "axios";
+import api from "../api";
 import global from "../../app/global.css";
+import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
-import InformacionBasicaForm from "../InformacionBasica/page"; 
-
+import InformacionBasicaForm from "../InformacionBasica/page";
+import EnterpriseProfile from "../enterprise-profile/page";
 function Home() {
   const [users, setUsers] = useState([]);
-  const [view, setView] = useState("Clientes"); 
+  const [view, setView] = useState("Clientes");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const seeAll = async () => {
-      try {
-        const response = await axios.get("http://localhost:4000/api/getallBD");
-        setUsers(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-      
-    };
-    seeAll();
-    
+    const token = Cookies.get("jwt");
+    if (token) {
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+    }
   }, []);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      const seeAll = async () => {
+        try {
+          const response = await api.get("/getallBD");
+          setUsers(response.data);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      seeAll();
+    }
+  }, [isAuthenticated]);
+
+  if (!isAuthenticated) {
+    return <div>No estás autenticado</div>;
+  }
 
   return (
     <div className="min-h-screen bg-gray-200 flex">
@@ -37,7 +53,7 @@ function Home() {
             Clientes
           </button>
           <button
-            onClick={() => setView("Perfil")}
+            onClick={() => setView("EnterpriseProfile")}
             className="px-3 py-1 text-white block hover:bg-teal-900 mt-2 hover:text-white-50"
           >
             Perfil
@@ -142,6 +158,11 @@ function Home() {
         {view === "InformacionBasica" && (
           <div className="mt-10">
             <InformacionBasicaForm />
+          </div>
+        )}
+        {view === "EnterpriseProfile" && (
+          <div className="mt-10">
+            <EnterpriseProfile />
           </div>
         )}
       </main>
