@@ -117,7 +117,7 @@ function Loginempresas() {
       <Container sx={{ marginTop: 1 }}>
         <Grid container spacing={2}>
           <Grid item mt={15} xs={4} sm={4} md={4}>
-            <Link href="/landing">
+            <Link href="/">
               <Button
                 variant="outlined"
                 className="bg-[#9333EA] text-white"

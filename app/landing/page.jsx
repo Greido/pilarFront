@@ -1,153 +1,161 @@
 import React from "react";
 import '../js/bootstrap.min.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './css/nucleo-svg.css'
-import './css/nucleo-icons.css'
-import './css/material-kit-pro.css'
+import './css/nucleo-svg.css';
+import './css/nucleo-icons.css';
+import './css/material-kit-pro.css';
 
 import PluginInitializer from "./plugins";
-
 
 function Page() {
   return (
     <>
-      
       <PluginInitializer />
-      
+
       <div>
-      <nav className="navbar navbar-expand-lg blur blur-rounded position-absolute my-3 top-0 border-bottom py-3 z-index-3 shadow start-0 end-0 mx-4">
-      <div className="container">
-        <a className="navbar-brand text-gradient text-primary" href="#">
-          <h5>Polo Tecnológico</h5>
-        </a>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbar-header-2"
-          aria-controls="navbar-header-2"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon" />
-        </button>
-        <div className="collapse navbar-collapse" id="navbar-header-2">
-          <ul className="navbar-nav mx-auto">
-            <li className="nav-item">
-              <a className="nav-link" href="/polo/index.php" target="_blank">
-                Ir a Polo
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="/registro/cerrar-session.php" target="_blank">
-                <span className="ms-1 font-weight-bold text-secondary">Cerrar Sesión</span>
-              </a>
-            </li>
-          </ul>
-          <ul className="navbar-nav">
-            <li className="nav-item">
-              <a className="nav-link text-gradient text-info" href="https://twitter.com/PoloTecLR">
-                <i className="fab fa-twitter" />
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link text-gradient text-info mx-2" href="https://www.facebook.com/profile.php?id=100083851852563">
-                <i className="fab fa-facebook" />
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link text-gradient text-info" href="https://www.instagram.com/polotecnologicolr/">
-                <i className="fab fa-instagram" />
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  <header className="header-rounded-images">
-    <div className="page-header min-vh-90">
-      <img
-        alt="image"
-        className="position-absolute fixed-top ms-auto w-50 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0"
-        loading="lazy"
-        src="img/inicio2.jpg"
-      />
-      <div className="container">
-        <div className="row">
-          <div className="col-lg-7 d-flex">
-            <div className="card card-body blur text-md-start text-center px-sm-5 shadow-lg mt-sm-5 py-sm-5">
-              <h2 className="text-dark mb-4">
-                Registro Economía del Conocimiento
-              </h2>
-              <p className="lead text-dark pe-md-5 me-md-5">
-                Llena el formulario, completa el registro y comenzarás a vivir tu futuro. Nuestro objetivo es incrementar tus oportunidades laborales, acompañarte con capacitaciones 100% gratis y hacer tus logros y habilidades visibles en bootcamps o búsquedas laborales en las empresas líderes de base tecnológica asociadas al PoloTecnológico La Rioja.
-              </p>
-              <div className="buttons">
-                <button
-                  className="btn bg-gradient-primary mt-4"
-                  data-bs-target="#exampleModalForm "
-                  data-bs-toggle="modal"
-                  type="button"
-                >
-                  Iniciar Sesion
-                </button>
-                <a href="home-card">
-                  <button
-                    className="btn btn-outline-secondary mt-4 ms-2"
-                    type="button"
-                  >
-                    Regristrarse
-                  </button>
-                </a>
-              </div>
+        <nav className="navbar navbar-expand-lg blur blur-rounded position-absolute my-3 top-0 border-bottom py-3 z-index-3 shadow start-0 end-0 mx-4">
+          <div className="container">
+            <a className="navbar-brand text-gradient text-primary" href="#">
+              <h5>Polo Tecnológico</h5>
+            </a>
+            <button
+              className="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbar-header-2"
+              aria-controls="navbar-header-2"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span className="navbar-toggler-icon" />
+            </button>
+            <div className="collapse navbar-collapse" id="navbar-header-2">
+              <ul className="navbar-nav mx-auto">
+                <li className="nav-item">
+                  <a className="nav-link" href="/polo/index.php" target="_blank">
+                    Ir a Polo
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="/registro/cerrar-session.php" target="_blank">
+                    <span className="ms-1 font-weight-bold text-secondary">Cerrar Sesión</span>
+                  </a>
+                </li>
+              </ul>
+              <ul className="navbar-nav">
+                <li className="nav-item">
+                  <a className="nav-link text-gradient text-info" href="https://twitter.com/PoloTecLR">
+                    <i className="fab fa-twitter" />
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link text-gradient text-info mx-2" href="https://www.facebook.com/profile.php?id=100083851852563">
+                    <i className="fab fa-facebook" />
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link text-gradient text-info" href="https://www.instagram.com/polotecnologicolr/">
+                    <i className="fab fa-instagram" />
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-    <div
-      aria-hidden="true"
-      aria-labelledby="exampleModalForm"
-      className="modal fade"
-      id="exampleModalForm"
-      tabIndex="-1"
-    >
-      <div
-        className="modal-dialog modal-danger modal-dialog-centered modal-"
-        role="document"
-      >
-        <div className="modal-content">
-          <div className="modal-body p-0">
-            <div className="card bg-gray-200 shadow border-0 mb-0">
-              <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                <div className="bg-gradient-primary shadow-info border-radius-lg py-3 pe-1 text-center py-4">
-                  <h4 className="font-weight-bolder text-white mt-1 mb-0">
-                    Bienvenido
-                  </h4>
-                  <p className="mb-1 text-sm text-white">
-                    Complete los campos con su informacion
-                  </p>
+        </nav>
+        <header className="header-rounded-images">
+          <div className="page-header min-vh-90">
+            <img
+              alt="image"
+              className="position-absolute fixed-top ms-auto w-50 h-100 z-index-0 d-none d-sm-none d-md-block border-radius-section border-top-end-radius-0 border-top-start-radius-0 border-bottom-end-radius-0"
+              loading="lazy"
+              src="img/inicio2.jpg"
+            />
+            <div className="container">
+              <div className="row">
+                <div className="col-lg-7 d-flex">
+                  <div className="card card-body blur text-md-start text-center px-sm-5 shadow-lg mt-sm-5 py-sm-5">
+                    <h2 className="text-dark mb-4">
+                      Registro Economía del Conocimiento
+                    </h2>
+                    <p className="lead text-dark pe-md-5 me-md-5">
+                      Llena el formulario, completa el registro y comenzarás a vivir tu futuro. Nuestro objetivo es incrementar tus oportunidades laborales, acompañarte con capacitaciones 100% gratis y hacer tus logros y habilidades visibles en bootcamps o búsquedas laborales en las empresas líderes de base tecnológica asociadas al PoloTecnológico La Rioja.
+                    </p>
+                    <div className="buttons">
+                      <button
+                        className="btn bg-gradient-primary mt-4 me-2"
+                        data-bs-target="#exampleModalForm"
+                        data-bs-toggle="modal"
+                        type="button"
+                      >
+                        Iniciar Sesión
+                      </button>
+                      <a href="home-card">
+                        <button
+                          className="btn btn-outline-secondary mt-4 ms-3"
+                          type="button"
+                        >
+                          Registrarse
+                        </button>
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="card-body">
-              </div>
-              <div className="card-footer text-center pt-0">
-                <p className="mb-4 text-sm mx-auto">
-                  No tienes una cuenta ?
-                  <a
-                    className="text-primary text-gradient font-weight-bold"
-                    href="pages/sign-up/registro.php"
-                  >
-                    ¡Registrarte Ahora!
-                  </a>
-                </p>
+            </div>
+          </div>
+          <div
+            aria-hidden="true"
+            aria-labelledby="exampleModalForm"
+            className="modal fade"
+            id="exampleModalForm"
+            tabIndex="-1"
+          >
+            <div
+              className="modal-dialog modal-danger modal-dialog-centered modal-"
+              role="document"
+            >
+              <div className="modal-content">
+                <div className="modal-body p-0">
+                  <div className="card bg-gray-200 shadow border-0 mb-0">
+                    <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                      <div className="bg-gradient-primary shadow-info border-radius-lg py-3 pe-1 text-center py-4">
+                        <h4 className="font-weight-bolder text-white mt-1 mb-0">
+                          Bienvenido
+                        </h4>
+                        <p className="mb-1 text-sm text-white">
+                          Seleccione el tipo de inicio de sesión
+                        </p>
+                      </div>
+                    </div>
+                    <div className="card-body text-center">
+                      <a href="login-user">
+                      <button className="btn bg-gradient-primary mt-4 mb-0 me-2">
+                        Inicio de sesión usuario
+                        </button>
+                      </a>
+                      <a href="login-company">
+                      <button className="btn bg-gradient-secondary mt-4 mb-0 ms-2">
+                        Inicio de sesión compañía
+                      </button>
+                      </a>
+                    </div>
+                    <div className="card-footer text-center pt-0">
+                      <p className="mb-4 text-sm mx-auto">
+                        No tienes una cuenta?{" "}
+                        <a
+                          className="text-primary text-gradient font-weight-bold"
+                          href="home-card"
+                        >
+                          ¡Registrarte Ahora!
+                        </a>
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </header>
+        </header>
   <div className="card card-body blur shadow-blur mx-3 mx-md-4 mt-n6">
     <section
       className="pt-3 pb-4"
