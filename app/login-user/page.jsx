@@ -72,7 +72,7 @@ function Loginusuarios() {
                     <div className="h-4 w-4 rounded-full bg-gray-900 dark:bg-white"></div>
                     <div className="h-6 w-2 bg-primary"></div>
                   </div>
-                  <span className="text-2xl font-bold text-white dark:text-black">
+                  <span className="text-2xl font-bold text-black dark:text-black">
                     Registro de economia
                   </span>
                 </a>
@@ -118,8 +118,12 @@ function Loginusuarios() {
             <Link href="/">
               <Button
                 variant="outlined"
-                className="bg-[#9333EA] text-white"
-                style={{ borderColor: "#9333EA", color: "white" }}
+                className="bg-[#E63673] text-white"
+                style={{
+                  borderColor: "#E63673",
+                  color: "white",
+                  background: "#E63673",
+                }}
               >
                 Volver
               </Button>

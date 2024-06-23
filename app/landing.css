@@ -719,7 +719,7 @@ video {
 }
 .bg-primary {
   --tw-bg-opacity: 1;
-  background-color: rgb(147 51 234 / var(--tw-bg-opacity));
+  background-color: rgb(223 40 105 / var(--tw-bg-opacity));
 }
 .bg-sky-900 {
   --tw-bg-opacity: 1;
@@ -1163,7 +1163,7 @@ video {
   }
   .dark\:bg-gray-900 {
     --tw-bg-opacity: 1;
-    background-color: rgb(15 23 42 / var(--tw-bg-opacity));
+    background-color: rgb(241 241 241 / var(--tw-bg-opacity));
   }
   .dark\:bg-indigo-900\/20 {
     background-color: #312e8133;
