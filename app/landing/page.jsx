@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import "../js/bootstrap.min.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./css/nucleo-svg.css";
@@ -9,6 +10,12 @@ import PluginInitializer from "./plugins";
 import { Link } from "@material-ui/core";
 
 function Page() {
+  useEffect(() => {
+    if (typeof document !== undefined) {
+      // Importar bootstrap solo en el cliente
+      import("bootstrap/dist/js/bootstrap.min.js");
+    }
+  }, []);
   return (
     <>
       <PluginInitializer />
