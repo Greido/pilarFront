@@ -26,7 +26,8 @@ const Loginusuarios = () => {
 
       if (response.status === 200) {
         console.log("Inicio de sesión exitoso");
-        // Redirige al usuario a la página de destino
+        // Puedes redirigir al usuario a otra página, por ejemplo:
+        // router.push('/dashboard');
         router.push("/landing");
       }
     } catch (error) {
