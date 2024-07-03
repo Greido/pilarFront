@@ -1,12 +1,7 @@
-import React from "react";
-import "../js/bootstrap.min.js";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./css/nucleo-svg.css";
-import "./css/nucleo-icons.css";
-import "./css/material-kit-pro.css";
+import Header from "./components/Header"
+import Footer from "./components/Footer"
+import "./css/style.css";
 
-import PluginInitializer from "./plugins";
-import { Link } from "@material-ui/core";
 
 function Page() {
   return (
