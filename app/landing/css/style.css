@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@import url('https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.9.2/tailwind.min.css');
+
+
+  
+@media(max-width:1520px) {
+    .left-svg {
+        display: none;
+    }
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
+
+
+/* small css for the mobile nav close */
+#nav-mobile-btn.close span:first-child {
+    transform: rotate(45deg);
+    top: 4px;
+    position: relative;
+    background: #a0aec0;
+}
+
+#nav-mobile-btn.close span:nth-child(2) {
+    transform: rotate(-45deg);
+    margin-top: 0px;
+    background: #a0aec0;
+}

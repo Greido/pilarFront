@@ -1,0 +1,223 @@
+/* login.css */
+
+/* Importación de la fuente Staatliches */
+@import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
+
+/* Estilos generales de la página */
+
+.page-header {
+  position: relative;
+  width: 100%;
+  height: 700px; /* Aumento de la altura del banner */
+  margin: 1.5rem; /* Ajuste del margen */
+  border-radius: 1rem; /* Borde más redondeado */
+  background-color: #e5e7eb; /* Color de fondo */
+  background-image: url('/img/banner.jpg'); /* Asegúrate de que la ruta sea correcta */
+  background-size: cover; /* Ajusta la imagen para cubrir el contenedor */
+  background-position: center;
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
+}
+
+.page-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
+  opacity: 0.4;
+  z-index: 1; /* Asegura que el gradiente esté sobre la imagen */
+}
+
+.content {
+  position: relative;
+  z-index: 2; /* Asegura que el contenido esté sobre el gradiente */
+}
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 60px; /* Aumento del espacio interno */
+  background: #edf2f7;
+  position: relative;
+}
+
+/* Mensaje de error */
+.error-message {
+  width: 90%;
+  max-width: 700px; /* Ampliado */
+  padding: 20px; /* Aumento del relleno */
+  border-radius: 8px;
+  background: #f87171; /* Rojo claro */
+  color: #fff;
+  text-align: center;
+  font-size: 22px; /* Aumento del tamaño de fuente */
+  font-weight: bold;
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  opacity: 1;
+  animation: fadeOut 3s forwards;
+}
+
+/* Animación de desvanecimiento */
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Estilos de la tarjeta de inicio de sesión */
+.card {
+  max-width: 700px; /* Ampliado */
+  width: 100%;
+  padding: 50px; /* Más relleno para mayor tamaño */
+  border-radius: 10px; /* Más redondeado */
+  background: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  text-align: center; /* Alineación centrada del contenido */
+  font-family: 'Staatliches', sans-serif; /* Aplicación de la fuente Staatliches */
+}
+
+/* Logo */
+.card img {
+  display: block;
+  margin: 0 auto 30px; /* Más margen inferior */
+  height: 200px; /* Aumentado */
+}
+
+/* Encabezado */
+.card h2 {
+  font-size: 42px; /* Aumentado */
+  color: #EF4444;
+  margin-bottom: 30px; /* Aumento del margen inferior */
+}
+
+/* Agrupación de formulario */
+.form-group {
+  margin-bottom: 40px; /* Aumento del margen inferior para separar los elementos */
+}
+
+/* Etiquetas de los campos del formulario */
+.form-group label {
+  display: block;
+  font-size: 24px; /* Aumentado */
+  color: #4b5563;
+  margin-bottom: 12px; /* Aumento del margen inferior */
+  font-family: 'Staatliches', sans-serif; /* Aplicación de la fuente Staatliches */
+}
+
+/* Campos del formulario */
+.form-group input {
+  width: 100%;
+  padding: 18px; /* Aumentado */
+  border-radius: 10px; /* Más redondeado */
+  border: 1px solid #d1d5db;
+  font-size: 18px; /* Aumentado */
+}
+
+.form-group input:focus {
+  border-color: #1d4ed8;
+  outline: none;
+}
+
+/* Enlace de contraseña olvidada */
+.forgot-password-link {
+  display: block;
+  color: #ef4444; /* Color del texto */
+  font-weight: 700; /* Más negrita */
+  text-decoration: none;
+  margin-top: 40px; /* Más margen superior para separarlo más del campo del formulario */
+  font-size: 26px; /* Tamaño de fuente aumentado */
+  line-height: 1.5; /* Espaciado de línea aumentado para mejorar la legibilidad */
+  text-align: center; /* Centrar el texto del enlace si es necesario */
+}
+.forgot-password-link:hover {
+  color: #dc2626;
+}
+
+/* Botón de envío */
+.submit-button {
+  width: 100%;
+  padding: 25px; /* Aumentado más */
+  border-radius: 12px; /* Más redondeado */
+  background-color: #ef4444; /* Color de fondo */
+  color: white; /* Color del texto */
+  font-size: 24px; /* Aumentado más */
+  font-weight: 700; /* Más negrita */
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #dc2626; /* Color al pasar el cursor (más oscuro) */
+}
+
+/* Texto de pie de página */
+.footer-text {
+  margin-top: 30px; /* Aumentado */
+  font-size: 18px; /* Aumentado */
+  color: #9ca3af;
+}
+
+.footer-text a {
+  color: #ef4444;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.footer-text a:hover {
+  color: #dc2626;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px; /* Menos relleno en pantallas pequeñas */
+  }
+
+  .card {
+    padding: 30px; /* Menos relleno en pantallas pequeñas */
+  }
+
+  .card img {
+    height: 120px; /* Reducido para pantallas pequeñas */
+  }
+
+  .card h2 {
+    font-size: 30px; /* Reducido */
+  }
+
+  .form-group label {
+    font-size: 20px; /* Reducido */
+  }
+
+  .form-group input {
+    font-size: 16px; /* Reducido */
+  }
+
+  .forgot-password-link {
+    font-size: 18px; /* Reducido */
+    margin-top: 20px; /* Reducido */
+  }
+
+  .submit-button {
+    font-size: 18px; /* Reducido */
+    padding: 16px; /* Reducido */
+  }
+
+  .footer-text {
+    font-size: 16px; /* Reducido */
+  }
+}

@@ -1,4 +1,4 @@
-import React from "react";
+import '../landing/css/style.css'
 import landing from "../../app/landing.css";
 
 /* ....... */

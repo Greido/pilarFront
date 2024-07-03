@@ -1,6 +1,17 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  content: [
+    "./page.jsx",
+    "./**/*.{js,ts,jsx,tsx}",
+    
+  ],
+  darkMode: false,
   theme: {
+    extend: {
+      fontFamily: {
+        staatliches: ['Staatliches', 'cursive'],
+      },
+    },
     colors: {
       transparent: "transparent",
       current: "currentColor",
@@ -15,5 +26,7 @@ module.exports = {
     },
   },
 
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms')
+  ],
 };
