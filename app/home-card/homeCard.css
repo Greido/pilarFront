@@ -1,0 +1,181 @@
+/* Importación de la fuente Staatliches */
+@import url("https://fonts.googleapis.com/css2?family=Staatliches&display=swap");
+
+/* Estilos generales de la página */
+body,
+html {
+  height: 100%;
+  margin: 0;
+}
+
+.page-header {
+  position: relative;
+  width: 100%;
+  height: 340px; /* Ajusta la altura del banner según sea necesario */
+  background-color: #e5e7eb;
+  background-image: url("/img/banner.jpg"); /* Asegúrate de que la ruta sea correcta */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 1rem;
+  margin-bottom: 1rem; /* Espacio inferior */
+}
+
+.page-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
+  opacity: 0.4;
+  z-index: 1;
+}
+
+.container {
+  min-height: calc(10vh - 400px); /* Resta la altura del banner */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px; /* Ajuste del espacio interno */
+  background: #edf2f7;
+}
+
+.card {
+  max-width: 700px;
+  width: 100%;
+  padding: 50px;
+  border-radius: 30px;
+  background: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  text-align: center;
+  font-family: "Staatliches", sans-serif;
+  overflow-y: auto;
+}
+
+.card img {
+  display: block;
+  margin: 0 auto 30px;
+  height: 200px;
+}
+
+.card h2 {
+  font-size: 42px;
+  color: #ef4444;
+  margin-bottom: 30px;
+}
+
+.form-group {
+  margin-bottom: 40px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 24px;
+  color: #4b5563;
+  margin-bottom: 12px;
+  font-family: "Staatliches", sans-serif;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 18px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  font-size: 18px;
+}
+
+.form-group input:focus {
+  border-color: #1d4ed8;
+  outline: none;
+}
+
+.forgot-password-link {
+  display: block;
+  color: #ef4444;
+  font-weight: 700;
+  text-decoration: none;
+  margin-top: 40px;
+  font-size: 26px;
+  line-height: 1.5;
+  text-align: center;
+}
+.forgot-password-link:hover {
+  color: #dc2626;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 15px;
+  border-radius: 12px;
+  background-color: #ef4444;
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #dc2626;
+}
+
+.footer-text {
+  margin-top: 30px;
+  font-size: 18px;
+  color: #9ca3af;
+}
+
+.footer-text a {
+  color: #ef4444;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.footer-text a:hover {
+  color: #dc2626;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+  }
+
+  .card {
+    padding: 30px;
+  }
+
+  .card img {
+    height: 120px;
+  }
+
+  .card h2 {
+    font-size: 30px;
+  }
+
+  .form-group label {
+    font-size: 20px;
+  }
+
+  .form-group input {
+    font-size: 16px;
+  }
+
+  .forgot-password-link {
+    font-size: 18px;
+    margin-top: 20px;
+  }
+
+  .submit-button {
+    font-size: 18px;
+    padding: 16px;
+  }
+
+  .footer-text {
+    font-size: 16px;
+  }
+}

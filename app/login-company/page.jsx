@@ -56,7 +56,7 @@ const Loginusuarios = () => {
             {error}
           </div>
         )}
-        <div className="card bg-white shadow-lg rounded-lg p-8 flex flex-col items-center">
+        <div className="card bg-white shadow-lg rounded-lg p-5 flex flex-col items-center">
           <img
             src="/img/Logo_Polo.png"
             alt="Your Company"
