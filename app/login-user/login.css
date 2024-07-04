@@ -5,20 +5,22 @@
 body, html {
   height: 100%;
   margin: 0;
-  font-size: 12px; /* Reducir el tamaño de fuente base al 60% */
+  font-size: 12px;
+  overflow: hidden;
+
 }
 
 .page-header {
   position: relative;
   width: 100%;
-  height: 204px; /* Reducir la altura del banner al 60% */
+  height: 180px; 
   background-color: #e5e7eb;
-  background-image: url('/img/banner.jpg'); /* Asegúrate de que la ruta sea correcta */
+  background-image: url('/img/banner.jpg'); 
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  border-radius: 0.6rem; /* Reducir el radio de borde */
-  margin-bottom: 0; /* Eliminar el margen inferior */
+  border-radius: 0.6rem; 
+  margin-bottom: 0; 
 }
 
 .page-header::before {
@@ -34,61 +36,61 @@ body, html {
 }
 
 .container {
-  min-height: calc(100vh - 204px); /* Ajustar la resta de la altura del banner */
+  min-height: calc(100vh - 204px); 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 12px; /* Ajuste del espacio interno reducido */
+  padding: 12px; 
   background: #edf2f7;
-  margin-top: 0; /* Eliminar el margen superior */
+  margin-top: 0; 
 }
 
 .card {
-  max-width: 420px; /* Reducir el máximo ancho de la tarjeta al 60% */
+  max-width: 420px; 
   width: 100%;
-  padding: 24px; /* Reducir el padding */
-  border-radius: 6px; /* Reducir el radio de borde */
+  padding: 24px; 
+  border-radius: 6px; 
   background: #fff;
-  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1); /* Reducir la sombra */
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1); 
   box-sizing: border-box;
   text-align: center;
   font-family: 'Staatliches', sans-serif;
-  overflow-y: auto; /* Agregar scroll solo si es necesario */
+  overflow-y: auto; 
 }
 
 .card img {
   display: block;
-  margin: 0 auto 12px; /* Reducir el margen inferior de la imagen */
-  height: 120px; /* Reducir la altura de la imagen */
+  margin: 0 auto 12px; 
+  height: 120px; 
 }
 
 .card h2 {
   padding: 0;
-  font-size: 24px; /* Reducir el tamaño del título */
+  font-size: 24px;
   color: #EF4444;
-  margin-bottom: 12px; /* Reducir el margen inferior del título */
+  margin-bottom: 6px;
 }
 
 .form-group {
-  margin-bottom: 18px; /* Reducir el margen inferior del grupo de formulario */
+  margin-bottom: 18px; 
 }
 
 .form-group label {
   display: block;
-  font-size: 14px; /* Reducir el tamaño de la etiqueta */
+  font-size: 14px; 
   color: #4b5563;
-  margin-bottom: 6px; /* Reducir el margen inferior de la etiqueta */
+  margin-bottom: 6px; 
   font-family: 'Staatliches', sans-serif;
 }
 
 .form-group input {
   width: 100%;
-  padding: 0.5em; /* Reducir el padding */
-  border-radius: 6px; /* Reducir el radio de borde */
+  padding: 0.5em; 
+  border-radius: 6px; 
   border: 1px solid #d1d5db;
-  font-size: 11px; /* Reducir el tamaño de fuente */
-  box-sizing: border-box; /* Asegura que el padding se incluya en el tamaño total */
+  font-size: 11px; 
+  box-sizing: border-box; 
 }
 
 .form-group input:focus {
@@ -99,11 +101,11 @@ body, html {
 .forgot-password-link {
   display: block;
   color: #ef4444;
-  font-weight: 600; /* Reducir el peso de la fuente */
+  font-weight: 600; 
   text-decoration: none;
-  margin-top: 18px; /* Reducir el margen superior */
-  font-size: 14px; /* Reducir el tamaño de fuente */
-  line-height: 1.3; /* Reducir el espaciado entre líneas */
+  margin-top: 18px; 
+  font-size: 14px; 
+  line-height: 1.3; 
   text-align: center;
 }
 
@@ -113,11 +115,11 @@ body, html {
 
 .submit-button {
   width: 100%;
-  padding: 12px; /* Reducir el padding */
-  border-radius: 6px; /* Reducir el radio de borde */
+  padding: 12px; 
+  border-radius: 6px; 
   background-color: #ef4444;
   color: white;
-  font-size: 13px; /* Reducir el tamaño de fuente */
+  font-size: 13px; 
   font-weight: 700;
   border: none;
   cursor: pointer;
@@ -129,14 +131,14 @@ body, html {
 }
 
 .footer-text {
-  margin-top: 12px; /* Reducir el margen superior */
-  font-size: 11px; /* Reducir el tamaño de fuente */
+  margin-top: 12px; 
+  font-size: 11px; 
   color: #9ca3af;
 }
 
 .footer-text a {
   color: #ef4444;
-  font-weight: 600; /* Reducir el peso de la fuente */
+  font-weight: 600; 
   text-decoration: none;
 }
 
@@ -146,12 +148,12 @@ body, html {
 
 @media (max-width: 768px) {
   .container {
-    padding: 12px; /* Ajustar el espacio interno en dispositivos pequeños */
+    padding: 12px; 
   }
 
   .card {
-    max-width: 300px; /* Reducir aún más el ancho máximo en dispositivos pequeños */
-    padding: 18px; /* Reducir el padding */
+    max-width: 300px; 
+    padding: 18px; 
   }
 
   .card img {
