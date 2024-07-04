@@ -12,30 +12,24 @@ import landing from "../../app/landing.css";
 
 // Declara un componente de función llamado Registrousuarios
 function Registrousuarios() {
-  // Declara dos estados locales usando useState()
-  const [email, setEmail] = useState(""); // Estado para almacenar el correo electrónico
-  const [name, setName] = useState(""); // Estado para almacenar el nombre de usuario
-  const [password, setPassword] = useState(""); // Estado para almacenar la contraseña
-  const [cuil, setCuil] = useState(""); // Estado para almacenar el cuil
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [cuil, setCuil] = useState("");
   const [error, setError] = useState({
-    // Estado para el manejo de errores
-    error: false, // Bandera para indicar si hay un error
-    message: "", // Mensaje de error
+    error: false,
+    message: "",
   });
 
-  // Función para validar el formato del correo electrónico usando una expresión regular
   const emailValidation = (email) => {
     const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     return regex.test(email);
   };
 
-  // Función para manejar el evento de envío del formulario
   const onSubmit = async (e) => {
-    e.preventDefault(); // Previene el comportamiento predeterminado de enviar el formulario
+    e.preventDefault();
     if (!emailValidation(email)) {
-      // Valida el correo electrónico ingresado
       setError({
-        // Si el correo electrónico no es válido, establece el estado de error
         error: true,
         message: "El email no es valido",
       });
@@ -44,34 +38,35 @@ function Registrousuarios() {
 
     try {
       const userData = {
-        email: email,
-        name: name,
-        cuil: cuil,
-        password: password,
+        email,
+        name,
+        cuil,
+        password,
+        role: 'ent', // Adjusted role assignment
       };
 
       const response = await axios.post(
-        "http://localhost:4000/api/coregister",
+        "http://localhost:4000/api/enterprise/register",
         userData
       );
 
-      console.log(response.data); // Imprime la respuesta del servidor en la consola
+      console.log(response.data);
 
-      setEmail(""); // Restablece el estado de correo electrónico
-      setUsername(""); // Restablece el estado de nombre de usuario
-      setPassword(""); // Restablece el estado de contraseña
+      setEmail("");
+      setName("");
+      setPassword("");
+      setCuil("");
       setError({
-        error: false, // Restablece el estado de error
-        message: "", // Restablece el mensaje de error
+        error: false,
+        message: "",
       });
-    } catch (error) {} // Manejo de errores
-
-    //console.log(email); // Si el correo electrónico es válido, imprime el correo electrónico en la consola
-    setError({
-      // Restablece el estado de error
-      error: false,
-      message: "",
-    });
+    } catch (error) {
+      console.error("Error al enviar la solicitud:", error);
+      setError({
+        error: true,
+        message: "Ocurrió un error al registrar la empresa",
+      });
+    }
   };
 
   // Retorna el JSX que representa la estructura del formulario de registro de usuarios
@@ -139,7 +134,7 @@ function Registrousuarios() {
         </nav>
       </header>
       {/* Contenedor principal del formulario */}
-      <Container sx={{ marginTop: 1 }} s>
+      <Container sx={{ marginTop: 1 }}>
         {/* Grid para organizar el diseño del formulario */}
         <Grid container spacing={2}>
           <Grid item mt={15} xs={4} sm={4} md={4}>
@@ -182,7 +177,7 @@ function Registrousuarios() {
                   label="Nombre de empresa"
                   variant="outlined"
                   id="name"
-                  type="username"
+                  type="text"
                   sx={{ mt: 5 }}
                   fullWidth
                   required
@@ -207,7 +202,7 @@ function Registrousuarios() {
                   label="CUIL"
                   variant="outlined"
                   id="cuil"
-                  type="number"
+                  type="text"
                   sx={{ mt: 5 }}
                   fullWidth
                   required
@@ -219,7 +214,7 @@ function Registrousuarios() {
                 <Button
                   onClick={onSubmit}
                   type="submit"
-                  variant="cooutlinedntained"
+                  variant="contained"
                   sx={{ mt: 5 }}
                   className="bg-[#9333EA] text-white" // Aplica el color de fondo de Tailwind
                   style={{ borderColor: "#9333EA", color: "black" }} // Aplica el color del borde
