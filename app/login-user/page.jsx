@@ -2,8 +2,13 @@
 
 import React, { useState } from "react";
 import axios from "axios";
+<<<<<<< HEAD
 import { useRouter } from "next/navigation"; // Cambiado a next/router en lugar de next/navigation
 import './login.css'; // Asegúrate de que el archivo CSS esté en el mismo directorio
+=======
+import { useRouter } from "next/navigation";
+import './login.css'; 
+>>>>>>> ee0843e7eaa8a47b2b6c016a3fffb84333d646eb
 
 const Loginusuarios = () => {
   const [email, setEmail] = useState("");

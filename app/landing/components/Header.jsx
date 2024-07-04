@@ -80,15 +80,15 @@ function Header() {
                 />
               </svg>
             </button>
-            <a href="#" className="block py-2 text-gray-800 font-bold hover:text-red-600" onClick={toggleMenu}>Inicio</a>
-            <a href="Isntitucional" className="block py-2 text-gray-800 font-bold hover:text-red-600" onClick={toggleMenu}>Institucional</a>
-            <a href="#pricing" className="block py-2 text-gray-800 font-bold hover:text-red-600" onClick={toggleMenu}>Contacto</a>
+            <a href="/" className="block py-2 text-gray-800 font-bold hover:text-red-600" onClick={toggleMenu}>Inicio</a>
+            <a href="/isntitucional" className="block py-2 text-gray-800 font-bold hover:text-red-600" onClick={toggleMenu}>Institucional</a>
+            <a href="/contacto" className="block py-2 text-gray-800 font-bold hover:text-red-600" onClick={toggleMenu}>Contacto</a>
           </div>
         </div>
       </nav>
   
         <div className="absolute left-0 flex-col items-center justify-center hidden w-full pb-8 mt-48 border-b border-gray-200 md:relative md:w-auto md:bg-transparent md:border-none md:mt-0 md:flex-row md:p-0 md:items-end md:flex md:justify-between">
-        <a className="relative z-40 flex items-center px-3 py-2 mr-0 text-sm font-bold text-white md:px-5 lg:text-white sm:mr-3 md:mt-0" href="#_">
+        <a className="relative z-40 flex items-center px-3 py-2 mr-0 text-sm font-bold text-white md:px-5 lg:text-white sm:mr-3 md:mt-0" href="https://www.instagram.com/polotecnologicolr/" target="_blank">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-6 w-6 text-white" 
@@ -102,7 +102,7 @@ function Header() {
 
 <a
   className="relative z-40 inline-block w-auto h-full px-5 py-3 text-sm font-bold leading-none text-white transition-all duration-100 bg-transparent rounded hover:shadow-xl"
-  href="#_"
+  href="https://twitter.com/PoloTecLR"target="_blank"
 >
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -115,7 +115,7 @@ function Header() {
 </a>
 <a
   className="relative z-40 inline-block w-auto h-full px-5 py-3 text-sm font-bold leading-none text-white transition-all duration-100 bg-transparent rounded hover:shadow-xl"
-  href="https://www.facebook.com" 
+  href="https://www.facebook.com/profile.php?id=100083851852563" 
   target="_blank"
   rel="noopener noreferrer"
 >
