@@ -1,7 +1,7 @@
 "use client";
-
 import React, { useState } from "react";
 import axios from "axios";
+import Swal from "sweetalert2"; // Importa SweetAlert2
 import "./login.css"; // Asegúrate de que el archivo CSS esté en el mismo directorio
 
 const Registrousuarios = () => {
@@ -11,24 +11,28 @@ const Registrousuarios = () => {
   const [error, setError] = useState("");
   const [showError, setShowError] = useState(false);
   const role = "user";
+
   const register = async (e) => {
     e.preventDefault();
 
     try {
-      const userData = { username, password, email, role };
-      //console.log(userData);
+      const userData = { username, email, password, role };
+      console.log("Sending userData:", userData); // Log para ver los datos que se envían
       const response = await axios.post(
         "http://localhost:4000/api/register",
         userData
       );
 
       if (response.status === 201) {
-        alert.log("Registro exitoso");
-        // Puedes redirigir al usuario a otra página, por ejemplo:
-        // router.push('/dashboard');
-        router.push("/login-company");
+        Swal.fire({
+          title: "Registro exitoso",
+          text: "Tu cuenta ha sido creada correctamente",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
       }
     } catch (error) {
+      console.log(error);
       if (error.response) {
         setError(
           error.response.data.message ||
@@ -41,7 +45,7 @@ const Registrousuarios = () => {
 
       // Limpia los campos del formulario después de un pequeño retraso
       setTimeout(() => {
-        setName("");
+        setUsername("");
         setPassword("");
         setShowError(false);
       }, 10000); // Muestra el mensaje por 10 segundos
@@ -66,12 +70,15 @@ const Registrousuarios = () => {
           <h2 className="text-3xl font-semibold mb-6">Registrate</h2>
           <form onSubmit={register} className="w-full max-w-md">
             <div className="form-group mb-4">
-              <label htmlFor="name" className="block text-lg font-medium mb-2">
+              <label
+                htmlFor="username"
+                className="block text-lg font-medium mb-2"
+              >
                 Nombre de usuario
               </label>
               <input
-                id="name"
-                name="name"
+                id="username"
+                name="username"
                 type="text"
                 placeholder="Example name"
                 required
@@ -81,12 +88,12 @@ const Registrousuarios = () => {
               />
             </div>
             <div className="form-group mb-4">
-              <label htmlFor="name" className="block text-lg font-medium mb-2">
+              <label htmlFor="email" className="block text-lg font-medium mb-2">
                 Email
               </label>
               <input
-                id="name"
-                name="name"
+                id="email"
+                name="email"
                 type="email"
                 placeholder="example@exmaple.com"
                 required
