@@ -13,8 +13,6 @@ function Home() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-
-
   useEffect(() => {
     const token = Cookies.get("jwt");
     if (token) {
@@ -23,7 +21,7 @@ function Home() {
       setIsAuthenticated(true);
     }
   }, []);
-
+  /* 
   useEffect(() => {
     if (isAuthenticated) {
       const seeAll = async () => {
@@ -40,62 +38,67 @@ function Home() {
 
   if (!isAuthenticated) {
     return <div>No estás autenticado</div>;
-  }
+  } */
 
   return (
     <div className="min-h-screen bg-gray-200 flex font-staatliches">
-    {/* Menú lateral */}
-    <aside className={`md:w-2/5 lg:w-2/5 xl:w-1/5 bg-red-700 px-5 py-10 ${isSidebarOpen ? 'block' : 'hidden'} lg:block`}>
-      <h1 className="font-staatliches uppercase text-2xl text-white tracking-wide font-bold mt-2">
-        Registro de economía
-      </h1>
-      <p className="font-staatliches mt-10 text-xl text-white">Administra tu bolsa de trabajo</p>
-      <nav className="mt-8">
-        <button
-          onClick={() => setView("Clientes")}
-          className="text-xl px-3 py-2 text-white block hover:bg-teal-800 bg-teal-700 w-full text-left"
-        >
-          Clientes
-        </button>
-        <button
-          onClick={() => setView("EnterpriseProfile")}
-          className="text-xl px-3 py-2 text-white block hover:bg-teal-800 mt-4 w-full text-left"
-        >
-          Perfil
-        </button>
-        <button
-          onClick={() => setView("InformacionBasica")}
-          className="text-xl px-3 py-2 text-white block hover:bg-teal-800 mt-4 w-full text-left"
-        >
-          Información Básica
-        </button>
-        <button
-          onClick={() => setView("CambiarContrasena")}
-          className="text-xl px-3 py-2 text-white block hover:bg-teal-800 mt-4 w-full text-left"
-        >
-          Cambia tu contraseña
-        </button>
-        <button
-          onClick={() => setView("Notificaciones")}
-          className="text-xl px-3 py-2 text-white block hover:bg-teal-800 mt-4 w-full text-left"
-        >
-          Notificaciones
-        </button>
-        <button
-          onClick={() => setView("SesionesActivas")}
-          className="text-xl px-3 py-2 text-white block hover:bg-teal-800 mt-4 w-full text-left"
-        >
-          Sesiones activas
-        </button>
-        <button
-          onClick={() => setView("BorrarCuenta")}
-          className="text-xl px-3 py-2 text-white block hover:bg-teal-800 mt-4 w-full text-left"
-        >
-          Borrar cuenta
-        </button>
-      </nav>
-    </aside>
-  
+      {/* Menú lateral */}
+      <aside
+        className={`md:w-2/5 lg:w-2/5 xl:w-1/5 bg-red-700 px-5 py-10 ${
+          isSidebarOpen ? "block" : "hidden"
+        } lg:block`}
+      >
+        <h1 className="font-staatliches uppercase text-2xl text-white tracking-wide font-bold mt-2">
+          Registro de economía
+        </h1>
+        <p className="font-staatliches mt-10 text-xl text-white">
+          Administra tu bolsa de trabajo
+        </p>
+        <nav className="mt-8">
+          <button
+            onClick={() => setView("Clientes")}
+            className="text-xl px-3 py-2 text-white block hover:bg-teal-800 bg-teal-700 w-full text-left"
+          >
+            Clientes
+          </button>
+          <button
+            onClick={() => setView("EnterpriseProfile")}
+            className="text-xl px-3 py-2 text-white block hover:bg-teal-800 mt-4 w-full text-left"
+          >
+            Perfil
+          </button>
+          <button
+            onClick={() => setView("InformacionBasica")}
+            className="text-xl px-3 py-2 text-white block hover:bg-teal-800 mt-4 w-full text-left"
+          >
+            Información Básica
+          </button>
+          <button
+            onClick={() => setView("CambiarContrasena")}
+            className="text-xl px-3 py-2 text-white block hover:bg-teal-800 mt-4 w-full text-left"
+          >
+            Cambia tu contraseña
+          </button>
+          <button
+            onClick={() => setView("Notificaciones")}
+            className="text-xl px-3 py-2 text-white block hover:bg-teal-800 mt-4 w-full text-left"
+          >
+            Notificaciones
+          </button>
+          <button
+            onClick={() => setView("SesionesActivas")}
+            className="text-xl px-3 py-2 text-white block hover:bg-teal-800 mt-4 w-full text-left"
+          >
+            Sesiones activas
+          </button>
+          <button
+            onClick={() => setView("BorrarCuenta")}
+            className="text-xl px-3 py-2 text-white block hover:bg-teal-800 mt-4 w-full text-left"
+          >
+            Borrar cuenta
+          </button>
+        </nav>
+      </aside>
 
       {/* Menú hamburguesa */}
       <button
@@ -119,7 +122,11 @@ function Home() {
       </button>
 
       {/* Sidebar (oculta en pantallas grandes) */}
-      <div className={`fixed inset-0 bg-red-700 px-5 py-10 lg:hidden ${isSidebarOpen ? 'block' : 'hidden'}`}>
+      <div
+        className={`fixed inset-0 bg-red-700 px-5 py-10 lg:hidden ${
+          isSidebarOpen ? "block" : "hidden"
+        }`}
+      >
         <button
           onClick={() => setIsSidebarOpen(false)}
           className="text-white p-2"
@@ -142,7 +149,9 @@ function Home() {
         <h1 className="uppercase text-xl text-white tracking-wide text-2xl font-bold mt-2">
           Registro de economía
         </h1>
-        <p className="mt-10 text-xl text-white">Administra tu bolsa de trabajo</p>
+        <p className="mt-10 text-xl text-white">
+          Administra tu bolsa de trabajo
+        </p>
         <nav className="mt-8">
           <button
             onClick={() => setView("Clientes")}
@@ -188,7 +197,6 @@ function Home() {
           </button>
         </nav>
       </div>
-
 
       <main className="flex-1 md:ml-64 px-5 py-10 bg-gray-200">
         {view === "Clientes" && (

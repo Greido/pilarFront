@@ -1,217 +1,126 @@
 "use client";
 
-import { Button, Paper, TextField, Typography } from "@mui/material";
-import Grid from "@mui/material/Grid";
-import Container from "@mui/material/Container";
 import React, { useState } from "react";
-import Box from "@mui/system/Box";
 import axios from "axios";
-import Link from "next/link";
-import landing from "../../app/landing.css";
+import "./login.css"; // Asegúrate de que el archivo CSS esté en el mismo directorio
 
-function Registrousuarios() {
-  const [email, setEmail] = useState("");
+const Registrousuarios = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState({
-    error: false,
-    message: "",
-  });
-
-  const emailValidation = (email) => {
-    const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-    return regex.test(email);
-  };
-
-  const onSubmit = async (e) => {
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const [showError, setShowError] = useState(false);
+  const role = "user";
+  const register = async (e) => {
     e.preventDefault();
-    if (!emailValidation(email)) {
-      setError({
-        error: true,
-        message: "El email no es válido",
-      });
-      return;
-    }
 
     try {
-      const userData = { email, 
-                        username,
-                        password,
-                        role: 'user',
-                        };
-
+      const userData = { username, password, email, role };
+      //console.log(userData);
       const response = await axios.post(
         "http://localhost:4000/api/register",
         userData
       );
 
-      if (response.status === 200) {
-        alert("Usuario registrado correctamente");
-      } else if (response.status === 202) {
-        alert("Correo ya registrado");
+      if (response.status === 201) {
+        alert.log("Registro exitoso");
+        // Puedes redirigir al usuario a otra página, por ejemplo:
+        // router.push('/dashboard');
+        router.push("/login-company");
       }
-
-      setEmail("");
-      setUsername("");
-      setPassword("");
-      setError({
-        error: false,
-        message: "",
-      });
     } catch (error) {
-      console.error(error); // Log the error for debugging purposes
       if (error.response) {
-        setError({
-          error: true,
-          message: error.response.data.message || "Error en el registro",
-        });
+        setError(
+          error.response.data.message ||
+            "Error en el registro, intentelo de nuevo"
+        );
       } else {
-        setError({
-          error: true,
-          message: "Error en el registro",
-        });
+        setError("Error en el registro, intentelo de nuevo");
       }
+      setShowError(true);
+
+      // Limpia los campos del formulario después de un pequeño retraso
+      setTimeout(() => {
+        setName("");
+        setPassword("");
+        setShowError(false);
+      }, 10000); // Muestra el mensaje por 10 segundos
     }
   };
 
   return (
     <>
-      <header>
-        <nav className="z-10 w-full absolute">
-          <div className="container">
-            <div className="flex flex-wrap items-center justify-between py-2 gap-6 md:py-4 md:gap-0 relative">
-              <input
-                aria-hidden="true"
-                type="checkbox"
-                name="toggle_nav"
-                id="toggle_nav"
-                className="hidden peer"
-              />
-              <div className="relative z-20 w-full flex justify-between lg:w-max md:px-0">
-                <a
-                  href="#home"
-                  aria-label="logo"
-                  className="flex space-x-2 items-center"
-                >
-                  <div aria-hidden="true" className="flex space-x-1">
-                    <div className="h-4 w-4 rounded-full bg-gray-900 dark:bg-white"></div>
-                    <div className="h-6 w-2 bg-primary"></div>
-                  </div>
-                  <span className="text-2xl font-bold text-white dark:text-black">
-                    Registro de economía
-                  </span>
-                </a>
-                <div className="relative flex items-center lg:hidden max-h-10">
-                  <label
-                    role="button"
-                    htmlFor="toggle_nav"
-                    aria-label="hamburger"
-                    id="hamburger"
-                    className="relative p-6 -mr-6"
-                  >
-                    <div
-                      aria-hidden="true"
-                      id="line"
-                      className="m-auto h-0.5 w-5 rounded bg-sky-900 dark:bg-gray-300 transition duration-300"
-                    ></div>
-                    <div
-                      aria-hidden="true"
-                      id="line2"
-                      className="m-auto mt-2 h-0.5 w-5 rounded bg-sky-900 dark:bg-gray-300 transition duration-300"
-                    ></div>
-                  </label>
-                </div>
-              </div>
-              <div
-                aria-hidden="true"
-                className="fixed z-10 inset-0 h-screen w-screen bg-white/70 backdrop-blur-2xl origin-bottom scale-y-0 transition duration-500 peer-checked:origin-top peer-checked:scale-y-100 lg:hidden dark:bg-gray-900/70"
-              ></div>
-              <div
-                className="flex-col z-20 flex-wrap gap-6 p-8 rounded-3xl border border-gray-100 bg-white shadow-2xl shadow-gray-600/10 justify-end w-full invisible opacity-0 translate-y-1 absolute top-full left-0 transition-all duration-300 scale-95 origin-top
-                            lg:relative lg:scale-100 lg:peer-checked:translate-y-0 lg:translate-y-0 lg:flex lg:flex-row lg:items-center lg:gap-0 lg:p-0 lg:bg-transparent lg:w-7/12 lg:visible lg:opacity-100 lg:border-none
-                            peer-checked:scale-100 peer-checked:opacity-100 peer-checked:visible lg:shadow-none
-                            dark:shadow-none dark:bg-gray-800 dark:border-gray-700"
-              ></div>
-            </div>
+      <div className="page-header" loading="lazy"></div>
+      <div className="container mx-auto p-8 max-w-5xl">
+        {showError && (
+          <div className="error-message text-red-600 bg-red-200 p-4 rounded mb-4">
+            {error}
           </div>
-        </nav>
-      </header>
-
-      <Container sx={{ marginTop: 1 }}>
-        <Grid container spacing={2}>
-          <Grid item mt={15} xs={4} sm={4} md={4}>
-            <Link href="/home-card">
-              <Button
-                variant="outlined"
-                className="bg-[#9333EA] text-white"
-                style={{ borderColor: "#9333EA", color: "white" }}
+        )}
+        <div className="card bg-white shadow-lg rounded-lg p-5 flex flex-col items-center">
+          <img
+            src="/img/Logo_Polo.png"
+            alt="Your Company"
+            className="h-96 w-auto mb-12" // Ajusta el tamaño de la imagen aquí
+          />
+          <h2 className="text-3xl font-semibold mb-6">Registrate</h2>
+          <form onSubmit={register} className="w-full max-w-md">
+            <div className="form-group mb-4">
+              <label htmlFor="name" className="block text-lg font-medium mb-2">
+                Nombre de usuario
+              </label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                placeholder="Example name"
+                required
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+              />
+            </div>
+            <div className="form-group mb-4">
+              <label htmlFor="name" className="block text-lg font-medium mb-2">
+                Email
+              </label>
+              <input
+                id="name"
+                name="name"
+                type="email"
+                placeholder="example@exmaple.com"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+              />
+            </div>
+            <div className="form-group mb-6">
+              <label
+                htmlFor="password"
+                className="block text-lg font-medium mb-2"
               >
-                Volver
-              </Button>
-            </Link>
-          </Grid>
-          <Grid mt={12} item sm={6} md={4}>
-            <Paper square={false} elevation={8} sx={{}}>
-              <Typography pt={5} sx={{ fontWeight: 600, textAlign: "center" }}>
-                Registro de usuarios
-              </Typography>
-              <Box
-                component="form"
-                autoComplete="off"
-                sx={{ padding: 5 }}
-                onSubmit={onSubmit}
-              >
-                <TextField
-                  label="Email"
-                  variant="outlined"
-                  id="email"
-                  type="email"
-                  fullWidth
-                  required
-                  error={error.error}
-                  helperText={error.message}
-                  onChange={(e) => setEmail(e.target.value)}
-                  value={email}
-                />
-                <TextField
-                  label="Nombre de usuario"
-                  variant="outlined"
-                  id="username"
-                  type="text"
-                  sx={{ mt: 5 }}
-                  fullWidth
-                  required
-                  onChange={(e) => setUsername(e.target.value)}
-                  value={username}
-                />
-                <TextField
-                  label="Contraseña"
-                  variant="outlined"
-                  id="password"
-                  type="password"
-                  sx={{ mt: 5 }}
-                  fullWidth
-                  required
-                  onChange={(e) => setPassword(e.target.value)}
-                  value={password}
-                />
-                <Button
-                  type="submit"
-                  variant="outlined"
-                  sx={{ mt: 5 }}
-                  className="bg-[#9333EA] text-white"
-                  style={{ borderColor: "#9333EA", color: "black" }}
-                >
-                  Registrarme
-                </Button>
-              </Box>
-            </Paper>
-          </Grid>
-          <Grid item xs={4} sm={4} md={4}></Grid>
-        </Grid>
-      </Container>
+                Password
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                placeholder="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+              />
+            </div>
+            <button type="submit" className="submit-button">
+              Registrar
+            </button>
+          </form>
+        </div>
+      </div>
     </>
   );
-}
+};
 
 export default Registrousuarios;

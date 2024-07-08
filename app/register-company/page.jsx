@@ -5,34 +5,39 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import "./login.css"; // Asegúrate de que el archivo CSS esté en el mismo directorio
 
-const Loginusuarios = () => {
+const Registrousuarios = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [cuil, setCuil] = useState("");
   const [error, setError] = useState("");
   const [showError, setShowError] = useState(false);
-
-  const login = async (e) => {
+  const role = "ent";
+  const register = async (e) => {
     e.preventDefault();
 
     try {
-      const userData = { name, password }; // Cambia 'email' por 'name'
-
+      const userData = { name, password, email, cuil, role }; // Cambia 'email' por 'name'
+      //console.log(userData);
       const response = await axios.post(
-        "http://localhost:4000/api/enterprise/login",
+        "http://localhost:4000/api/enterprise/register",
         userData
       );
 
-      if (response.status === 200) {
-        console.log("Inicio de sesión exitoso");
+      if (response.status === 201) {
+        alert.log("Registro exitoso");
         // Puedes redirigir al usuario a otra página, por ejemplo:
         // router.push('/dashboard');
-        router.push("/landing");
+        router.push("/login-company");
       }
     } catch (error) {
       if (error.response) {
-        setError(error.response.data.message || "Error en el inicio de sesión");
+        setError(
+          error.response.data.message ||
+            "Error en el registro, intentelo de nuevo"
+        );
       } else {
-        setError("Error en el inicio de sesión");
+        setError("Error en el registro, intentelo de nuevo");
       }
       setShowError(true);
 
@@ -60,8 +65,8 @@ const Loginusuarios = () => {
             alt="Your Company"
             className="h-96 w-auto mb-12" // Ajusta el tamaño de la imagen aquí
           />
-          <h2 className="text-3xl font-semibold mb-6">Inicia Sesion</h2>
-          <form onSubmit={login} className="w-full max-w-md">
+          <h2 className="text-3xl font-semibold mb-6">Registra tu empresa</h2>
+          <form onSubmit={register} className="w-full max-w-md">
             <div className="form-group mb-4">
               <label htmlFor="name" className="block text-lg font-medium mb-2">
                 Nombre de empresa
@@ -70,9 +75,25 @@ const Loginusuarios = () => {
                 id="name"
                 name="name"
                 type="text"
+                placeholder="Example name"
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+              />
+            </div>
+            <div className="form-group mb-4">
+              <label htmlFor="name" className="block text-lg font-medium mb-2">
+                Email
+              </label>
+              <input
+                id="name"
+                name="name"
+                type="email"
+                placeholder="example@exmaple.com"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
               />
             </div>
@@ -81,36 +102,45 @@ const Loginusuarios = () => {
                 htmlFor="password"
                 className="block text-lg font-medium mb-2"
               >
-                Contraseña
+                CUIL
+              </label>
+              <input
+                id="cuil"
+                name="cuil"
+                type="number"
+                placeholder="1234567890"
+                required
+                value={cuil}
+                onChange={(e) => setCuil(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+              />
+            </div>
+            <div className="form-group mb-6">
+              <label
+                htmlFor="password"
+                className="block text-lg font-medium mb-2"
+              >
+                Password
               </label>
               <input
                 id="password"
                 name="password"
                 type="password"
-                autoComplete="current-password"
+                placeholder="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
               />
-              <a href="#" className="forgot-password-link">
-                Olvidaste la contraseña?
-              </a>
             </div>
             <button type="submit" className="submit-button">
-              Iniciar sesión
+              Registrar
             </button>
           </form>
-          <p className="footer-text mt-6 text-center text-gray-600">
-            No sos miembro{" "}
-            <a href="/home-card" className="text-teal-600 hover:underline">
-              Registrarse
-            </a>
-          </p>
         </div>
       </div>
     </>
   );
 };
 
-export default Loginusuarios;
+export default Registrousuarios;
