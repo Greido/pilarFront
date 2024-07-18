@@ -37,7 +37,7 @@ const Loginusuarios = () => {
         console.log("Inicio de sesión exitoso");
         // Puedes redirigir al usuario a otra página, por ejemplo:
         // router.push('/dashboard');
-        router.push("/landing");
+        router.push("/home");
       }
     } catch (error) {
       if (error.response) {
