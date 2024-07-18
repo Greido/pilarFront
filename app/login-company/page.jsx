@@ -11,8 +11,6 @@ const Loginusuarios = () => {
   const [error, setError] = useState("");
   const [showError, setShowError] = useState(false);
 
-  const router = useRouter();
-
   const login = async (e) => {
     e.preventDefault();
 
@@ -20,7 +18,7 @@ const Loginusuarios = () => {
       const userData = { name, password }; // Cambia 'email' por 'name'
 
       const response = await axios.post(
-        "http://localhost:4000/api/cologin",
+        "http://localhost:4000/api/enterprise/login",
         userData
       );
 
@@ -58,7 +56,7 @@ const Loginusuarios = () => {
             {error}
           </div>
         )}
-        <div className="card bg-white shadow-lg rounded-lg p-8 flex flex-col items-center">
+        <div className="card bg-white shadow-lg rounded-lg p-5 flex flex-col items-center">
           <img
             src="/img/Logo_Polo.png"
             alt="Your Company"

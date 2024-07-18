@@ -6,13 +6,16 @@ import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import InformacionBasicaForm from "../InformacionBasica/page";
 import EnterpriseProfile from "../enterprise-profile/page";
+import CambiarContrasena from "../CambiarContrasena";
+import Notificaciones from "../Notificaciones";
+import SesionesActivas from "../SesionesActivas";
+import BorrarCuenta from "../BorrarCuenta";
 
 function Home() {
   const [users, setUsers] = useState([]);
   const [view, setView] = useState("Clientes");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
 
   useEffect(() => {
     const token = Cookies.get("jwt");
@@ -40,28 +43,10 @@ function Home() {
   if (!isAuthenticated) {
     return <div>No estás autenticado</div>;
   }
-  
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-
-  const logout = async () => {
-    try {
-      const response = await axios.post("http://localhost:3000/api/logout", {}, {
-        withCredentials: true,
-      });
-      if (response.status === 200) {
-        Cookies.remove("jwt");
-        router.push("/login-user");
-      }
-    } catch (error) {
-      console.error("Error al cerrar sesión:", error);
-    }
-  };
-  
   return (
     <div className="min-h-screen bg-gray-200 flex font-staatliches">
+      {/* Menú lateral */}
       <aside className={`md:w-2/5 lg:w-2/5 xl:w-1/5 bg-red-700 px-5 py-10 ${isSidebarOpen ? 'block' : 'hidden'} lg:block`}>
         <h1 className="font-staatliches uppercase text-2xl text-white tracking-wide font-bold mt-2">
           Registro de economía
@@ -110,27 +95,89 @@ function Home() {
           >
             Borrar cuenta
           </button>
-
-          <a
-            href="/login-user"
-            onClick={() => { logout() }}
-            className="text-xl px-3 py-2 text-white block hover:bg-teal-800 mt-4 w-full text-left"
-            style={{ background: 'none', marginTop: '100px' }}
-          >
-            🔒 Cerrar Sesión
-          </a>
         </nav>
       </aside>
-      <div className="flex-grow">
+
+      {/* Menú hamburguesa */}
+      <button
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        className="text-gray-500 lg:hidden p-4"
+      >
+        <svg
+          className="w-6 h-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M4 6H20M4 12H20M4 18H20"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+          />
+        </svg>
+      </button>
+
+      {/* Sidebar (oculta en pantallas grandes) */}
+      <div className={`fixed inset-0 bg-red-700 px-5 py-10 lg:hidden ${isSidebarOpen ? 'block' : 'hidden'}`}>
         <button
-          onClick={toggleSidebar}
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
           className="p-4 bg-red-700 text-white rounded-full fixed top-4 right-4 lg:hidden"
         >
           {isSidebarOpen ? '✖️' : '☰'}
         </button>
-        {/* Contenido principal */}
+        <h1 className="uppercase text-xl text-white tracking-wide font-bold mt-2">
+          Registro de economía
+        </h1>
+        <p className="mt-10 text-xl text-white">Administra tu bolsa de trabajo</p>
+        <nav className="mt-8">
+          <button
+            onClick={() => setView("Clientes")}
+            className="px-3 py-1 text-xl text-white block hover:bg-teal-800 bg-teal-700"
+          >
+            Clientes
+          </button>
+          <button
+            onClick={() => setView("EnterpriseProfile")}
+            className="px-3 py-1 text-xl text-white block hover:bg-teal-800 mt-2"
+          >
+            Perfil
+          </button>
+          <button
+            onClick={() => setView("InformacionBasica")}
+            className="px-3 py-1 text-xl text-white block hover:bg-teal-800 mt-2"
+          >
+            Información Básica
+          </button>
+          <button
+            onClick={() => setView("CambiarContrasena")}
+            className="px-3 py-1 text-xl text-white block hover:bg-teal-800 mt-2"
+          >
+            Cambia tu contraseña
+          </button>
+          <button
+            onClick={() => setView("Notificaciones")}
+            className="px-3 py-1 text-xl text-white block hover:bg-teal-800 mt-2"
+          >
+            Notificaciones
+          </button>
+          <button
+            onClick={() => setView("SesionesActivas")}
+            className="px-3 py-1 text-xl text-white block hover:bg-teal-800 mt-2"
+          >
+            Sesiones activas
+          </button>
+          <button
+            onClick={() => setView("BorrarCuenta")}
+            className="px-3 py-1 text-xl text-white block hover:bg-teal-800 mt-2"
+          >
+            Borrar cuenta
+          </button>
+        </nav>
       </div>
-      <main className="md:w-3/5 lg:w-3/5 xl:w-4/5 p-10">
+
+      <main className="flex-1 md:ml-64 px-5 py-10 bg-gray-200">
         {view === "Clientes" && (
           <>
             <h1 className="font-staatliches text-2xl font-black text-red-900">Clientes</h1>
@@ -164,9 +211,7 @@ function Home() {
                   )}
                 </tbody>
               </table>
-          
             </div>
-           
           </>
         )}
         {view === "EnterpriseProfile" && <EnterpriseProfile />}
