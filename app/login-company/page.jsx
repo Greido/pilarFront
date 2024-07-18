@@ -24,11 +24,13 @@ const Loginusuarios = () => {
         userData
       );
 
+       console.log('no entro');
       if (response.status === 200) {
         console.log("Inicio de sesión exitoso");
         // Puedes redirigir al usuario a otra página, por ejemplo:
         // router.push('/dashboard');
-        router.push("/landing");
+        console.log(response);
+        router.push("/");
       }
     } catch (error) {
       if (error.response) {
