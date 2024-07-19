@@ -5,8 +5,6 @@ import axios from "axios";
 
 function InformacionBasicaForm() {
   const [formData, setFormData] = useState({
-    
-    _id: "",
     name: "",
     surname: "",
     localidad: "",
@@ -23,6 +21,7 @@ function InformacionBasicaForm() {
     experienciaEnAdministracionyGestiondeSistemas: "",
     debilidadTEC: "",
   });
+  const [id, setId] = useState('');
 
   const [responseMessage, setResponseMessage] = useState("");
   const [options, setOptions] = useState({
@@ -54,12 +53,22 @@ function InformacionBasicaForm() {
 
 
   useEffect(() => {
-    // if (_id ) return;
-
+    if (!id) return;
+    const apiUrl = `http://localhost:4000/api/getoneBD/${id}`
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/api/getoneBD/${formData._id}`);
-        setFormData(response.data);  // Asegúrate de que `response.data` contiene los datos correctos
+        const response = await axios.get(apiUrl);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        setFormData({
+          name: data.nombre,
+          surname: data.surname,
+          localidad: localidad.data,
+          phone: phone.data,
+          email:email.data,
+        });  // Asegúrate de que `response.data` contiene los datos correctos
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -75,6 +84,8 @@ function InformacionBasicaForm() {
       [name]: value,
     });
   };
+
+ 
   const handleAddField = (field) => {
     setFormData({
       ...formData,

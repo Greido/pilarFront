@@ -35,14 +35,19 @@ function Home() {
     }
   }, [isAuthenticated]);
 
+  const onLogout = () => {
+    Cookies.remove("jwt");
+    setIsAuthenticated(false);
+  };
+
   if (!isAuthenticated) {
     return <div>No estás autenticado</div>;
   }
 
   return (
-    <div className="min-h-screen bg-gray-200 flex font-staatliches">
+    <div className="min-h-screen bg-gray-200 flex flex-col lg:flex-row font-staatliches">
       {/* Barra lateral */}
-      <aside className={`fixed left-0 top-0 bottom-0 bg-red-700 text-white w-64 px-5 py-10 ${isSidebarOpen ? 'block' : 'hidden'} lg:block lg:w-auto overflow-y-auto`}>
+      <aside className={`fixed lg:static inset-y-0 left-0 bg-red-700 text-white w-64 px-5 py-10 lg:w-64 ${isSidebarOpen ? 'block' : 'hidden'} lg:block overflow-y-auto`}>
         <h1 className="font-staatliches uppercase text-2xl tracking-wide font-bold mt-2">
           Registro de economía
         </h1>
@@ -50,57 +55,57 @@ function Home() {
         <nav className="mt-8">
           <button
             onClick={() => setView("Clientes")}
-            className={`text-lg px-4 py-2 block hover:bg-teal-800 ${view === 'Clientes' ? 'bg-teal-800' : 'bg-teal-700'} w-full text-left`}
+            className={`text-lg px-4 py-2 block hover:bg-gray-500 ${view === 'Clientes' ? 'bg-white-800' : 'bg-white-700'} w-full text-left`}
           >
             Clientes
           </button>
           <button
             onClick={() => setView("EnterpriseProfile")}
-            className={`text-lg px-4 py-2 block hover:bg-teal-800 ${view === 'EnterpriseProfile' ? 'bg-teal-800' : 'bg-teal-700'} mt-2 w-full text-left`}
+            className={`text-lg px-4 py-2 block hover:bg-gray-500 ${view === 'EnterpriseProfile' ? 'bg-white-800' : 'bg-white-700'} mt-2 w-full text-left`}
           >
             Perfil
           </button>
           <button
             onClick={() => setView("InformacionBasica")}
-            className={`text-lg px-4 py-2 block hover:bg-teal-800 ${view === 'InformacionBasica' ? 'bg-teal-800' : 'bg-teal-700'} mt-2 w-full text-left`}
+            className={`text-lg px-4 py-2 block hover:bg-gray-500 ${view === 'InformacionBasica' ? 'bg-white-800' : 'bg-white-700'} mt-2 w-full text-left`}
           >
             Información Básica
           </button>
           <button
             onClick={() => setView("CambiarContrasena")}
-            className={`text-lg px-4 py-2 block hover:bg-teal-800 ${view === 'CambiarContrasena' ? 'bg-teal-800' : 'bg-teal-700'} mt-2 w-full text-left`}
+            className={`text-lg px-4 py-2 block hover:bg-gray-500 ${view === 'CambiarContrasena' ? 'bg-white-800' : 'bg-white-700'} mt-2 w-full text-left`}
           >
             Cambia tu contraseña
           </button>
           <button
             onClick={() => setView("Notificaciones")}
-            className={`text-lg px-4 py-2 block hover:bg-teal-800 ${view === 'Notificaciones' ? 'bg-teal-800' : 'bg-teal-700'} mt-2 w-full text-left`}
+            className={`text-lg px-4 py-2 block hover:bg-gray-500 ${view === 'Notificaciones' ? 'bg-white-800' : 'bg-white-700'} mt-2 w-full text-left`}
           >
             Notificaciones
           </button>
           <button
             onClick={() => setView("SesionesActivas")}
-            className={`text-lg px-4 py-2 block hover:bg-teal-800 ${view === 'SesionesActivas' ? 'bg-teal-800' : 'bg-teal-700'} mt-2 w-full text-left`}
+            className={`text-lg px-4 py-2 block hover:bg-gray-500 ${view === 'SesionesActivas' ? 'bg-white-800' : 'bg-white-700'} mt-2 w-full text-left`}
           >
             Sesiones activas
           </button>
           <button
             onClick={() => setView("BorrarCuenta")}
-            className={`text-lg px-4 py-2 block hover:bg-teal-800 ${view === 'BorrarCuenta' ? 'bg-teal-800' : 'bg-teal-700'} mt-2 w-full text-left`}
+            className={`text-lg px-4 py-2 block hover:bg-gray-500 ${view === 'BorrarCuenta' ? 'bg-white-800' : 'bg-white-700'} mt-2 w-full text-left`}
           >
             Borrar cuenta
           </button>
         </nav>
         <a style={{'background':'none', 'marginTop':'100px'}} 
           href="/login-user"
-          onClick={()=>{onLogout()}}
-          className="px-3 py-1 text-white block hover:bg-teal-700 hover:text-yellow-400 bg-teal-700"
+          onClick={onLogout}
+          className="px-6 py-1 text-white block hover:bg-gray-700 hover:text-gray-800 bg-gray-700"
         >🔒 Cerrar Sesión</a>
       </aside>
 
       {/* Contenido principal */}
-      <main className="flex-1 overflow-y-auto px-10 py-10 bg-gray-200">
-        <div className="max-w-7xl mx-auto">
+      <main className="flex-1 px-4 py-10 bg-gray-200 flex justify-center">
+        <div className="w-full max-w-5xl mx-auto">
           {view === "Clientes" && (
             <>
               <h1 className="font-staatliches text-2xl font-black text-red-900 text-center">Clientes</h1>
@@ -171,4 +176,3 @@ function Home() {
 }
 
 export default Home;
-
