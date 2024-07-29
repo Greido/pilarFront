@@ -17,7 +17,6 @@ const Registrousuarios = () => {
 
     try {
       const userData = { username, email, password, role };
-      console.log("Sending userData:", userData); // Log para ver los datos que se envían
       const response = await axios.post(
         "http://localhost:4000/api/register",
         userData

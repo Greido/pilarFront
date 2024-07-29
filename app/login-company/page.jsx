@@ -2,33 +2,32 @@
 
 import React, { useState } from "react";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation"; // Cambiado de next/navigation a next/router
 import "./login.css"; // Asegúrate de que el archivo CSS esté en el mismo directorio
 
-const Loginusuarios = () => {
-  const [name, setName] = useState("");
+const Loginenterprise = () => {
+  const [email, setEmail] = useState(""); // Cambiado name a email
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showError, setShowError] = useState(false);
+  const router = useRouter(); // Usar useRouter para redirección
 
   const login = async (e) => {
     e.preventDefault();
 
     try {
-      const userData = { name, password }; // Cambia 'email' por 'name'
+      const userData = { email, password }; // Cambiado name a email
 
       const response = await axios.post(
         "http://localhost:4000/api/enterprise/login",
-        userData
+        userData,
+        { withCredentials: true } // Asegúrate de incluir credenciales si estás usando cookies
       );
 
-       console.log('no entro');
       if (response.status === 200) {
         console.log("Inicio de sesión exitoso");
-        // Puedes redirigir al usuario a otra página, por ejemplo:
-        // router.push('/dashboard');
-        console.log(response);
-        router.push("/");
+        // Redirigir al usuario a la página principal
+        router.push("/company-dash");
       }
     } catch (error) {
       if (error.response) {
@@ -40,7 +39,7 @@ const Loginusuarios = () => {
 
       // Limpia los campos del formulario después de un pequeño retraso
       setTimeout(() => {
-        setName("");
+        setEmail("");
         setPassword("");
         setShowError(false);
       }, 10000); // Muestra el mensaje por 10 segundos
@@ -65,16 +64,16 @@ const Loginusuarios = () => {
           <h2 className="text-3xl font-semibold mb-6">Inicia Sesion</h2>
           <form onSubmit={login} className="w-full max-w-md">
             <div className="form-group mb-4">
-              <label htmlFor="name" className="block text-lg font-medium mb-2">
-                Nombre de empresa
+              <label htmlFor="email" className="block text-lg font-medium mb-2">
+                Correo electrónico de empresa
               </label>
               <input
-                id="name"
-                name="name"
+                id="email"
+                name="email"
                 type="text"
                 required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
               />
             </div>
@@ -115,4 +114,4 @@ const Loginusuarios = () => {
   );
 };
 
-export default Loginusuarios;
+export default Loginenterprise;

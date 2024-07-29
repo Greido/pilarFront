@@ -2,7 +2,7 @@ import '../landing/css/style.css'
 import Header from "../landing/components/Header"
 import Footer from "../landing/components/Footer"
 
-function page() {
+function Page() {
 
     
   return (
@@ -31,4 +31,4 @@ function page() {
   )
 }
 
-export default page
+export default Page

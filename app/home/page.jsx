@@ -13,14 +13,11 @@ function Home() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
-    const token = Cookies.get("jwt");
-    if (token) {
-      setIsAuthenticated(true);
-    } else {
-      setIsAuthenticated(false);
-    }
+    const token = Cookies.get("token");
+    console.log("Token obtenido de las cookies:", token)
+    setIsAuthenticated(!token); // Utiliza una conversión booleana para simplificar
   }, []);
-
+   
   useEffect(() => {
     if (isAuthenticated) {
       const seeAll = async () => {
@@ -35,12 +32,14 @@ function Home() {
     }
   }, [isAuthenticated]);
 
+
   const onLogout = () => {
     Cookies.remove("jwt");
     setIsAuthenticated(false);
   };
 
   if (!isAuthenticated) {
+    
     return <div>No estás autenticado</div>;
   }
 
