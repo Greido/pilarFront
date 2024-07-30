@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-
 function InformacionBasicaForm() {
   const [formData, setFormData] = useState({
     name: "",
@@ -21,7 +20,9 @@ function InformacionBasicaForm() {
     experienciaEnAdministracionyGestiondeSistemas: "",
     debilidadTEC: "",
   });
-  const [id, setId] = useState('');
+  const [perfil, setPerfil] = useState({});
+
+  console.log(perfil);
 
   const [responseMessage, setResponseMessage] = useState("");
   const [options, setOptions] = useState({
@@ -31,7 +32,6 @@ function InformacionBasicaForm() {
     experienciaHG: ['Sistema de Información Geográfico', 'Computación en la Nube', 'Project Management Institute', 'Repositorio en la Nube', 'Metodologías Ágiles'],
   });
 
-  
   useEffect(() => {
     const fetchOptions = async () => {
       try {
@@ -41,51 +41,45 @@ function InformacionBasicaForm() {
         console.error('Error fetching options:', error);
       }
     };
-
-
- 
     fetchOptions();
-  
-
-   
   }, []);
 
-
-
   useEffect(() => {
-    if (!id) return;
-    const apiUrl = `http://localhost:4000/api/getoneBD/${id}`
     const fetchData = async () => {
       try {
-        const response = await axios.get(apiUrl);
-        if (!response.ok) {
+        const response = await axios.get('http://localhost:4000/api/getoneBD/66a3bf415cbaa940f537531f');
+        if (response.status !== 200) {
           throw new Error('Network response was not ok');
         }
-
-        setFormData({
-          name: data.nombre,
-          surname: data.surname,
-          localidad: localidad.data,
-          phone: phone.data,
-          email:email.data,
-        });  // Asegúrate de que `response.data` contiene los datos correctos
+        const data = response.data;
+        // Asegúrate de que response.data contiene los datos correctos
+        console.log('Fetched data:', data);
+        // Aquí puedes actualizar el estado con los datos obtenidos
+        // setPerfil(data); // Ejemplo: si los datos van en perfil
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
-
+  
     fetchData();
   }, []);
+  
 
-  const handleChange = (e) => {
+  const handleChange = (e, index = null, field = null) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    if (index !== null && field !== null) {
+      const updatedArray = formData[field].map((item, i) => {
+        if (i === index) {
+          return { ...item, [name]: value };
+        }
+        return item;
+      });
+      setFormData({ ...formData, [field]: updatedArray });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
- 
   const handleAddField = (field) => {
     setFormData({
       ...formData,
@@ -100,19 +94,14 @@ function InformacionBasicaForm() {
     });
   };
 
-
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Función para formatear la fecha
     const formatDate = (dateString) => {
       const [day, month, year] = dateString.split('/');
       return new Date(`${year}-${month}-${day}`);
     };
 
-    // Actualiza los datos del formulario con los formatos correctos
     const updatedFormData = {
       ...formData,
       fechaNacimiento: formatDate(formData.fechaNacimiento),
@@ -140,7 +129,7 @@ function InformacionBasicaForm() {
 
     try {
       const response = await axios.post("http://localhost:4000/api/createBasicData", updatedFormData,  {
-        withCredentials: true, // Importante para enviar cookies
+        withCredentials: true,
       });
       console.log(response.data);
       setResponseMessage("Datos básicos creados y asociados exitosamente!");
@@ -233,268 +222,253 @@ function InformacionBasicaForm() {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="fechaNacimiento">Fecha de nacimiento:</label>
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="fechaNacimiento">Fecha de Nacimiento:</label>
             <input
               value={formData.fechaNacimiento}
               className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="fechaNacimiento"
               name="fechaNacimiento"
               type="text"
-              placeholder="Ingresar fecha de nacimiento (dd/mm/yyyy)"
+              placeholder="Ingresar fecha de nacimiento (DD/MM/YYYY)"
               onChange={handleChange}
-              style={{ maxWidth: '750px' }}
+            />
+          </div>
+          {/* Repetible de experiencia en lenguajes de programación */}
+          <div className="col-span-2">
+            <label className="block text-gray-700 text-sm font-bold mb-2">Experiencia en Lenguajes de Programación:</label>
+            {formData.experienciaLP.map((exp, index) => (
+              <div key={index} className="flex items-center mb-2">
+                <select
+                  name="nombreLP"
+                  value={exp.nombreLP}
+                  onChange={(e) => handleChange(e, index, 'experienciaLP')}
+                  className="block appearance-none w-1/2 bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded-l leading-tight focus:outline-none focus:shadow-outline"
+                >
+                  <option value="">Seleccionar Lenguaje</option>
+                  {options.experienciaLP.map((opt, i) => (
+                    <option key={i} value={opt}>{opt}</option>
+                  ))}
+                </select>
+                <select
+                  name="nivel"
+                  value={exp.nivel}
+                  onChange={(e) => handleChange(e, index, 'experienciaLP')}
+                  className="block appearance-none w-1/2 bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded-r leading-tight focus:outline-none focus:shadow-outline"
+                >
+                  <option value="Básico">Básico</option>
+                  <option value="Intermedio">Intermedio</option>
+                  <option value="Avanzado">Avanzado</option>
+                </select>
+                <button
+                  type="button"
+                  onClick={() => handleRemoveField('experienciaLP', index)}
+                  className="ml-2 bg-red-500 text-white px-3 py-1 rounded"
+                >
+                  Eliminar
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={() => handleAddField('experienciaLP')}
+              className="bg-blue-500 text-white px-3 py-1 rounded mt-2"
+            >
+              Añadir Lenguaje
+            </button>
+          </div>
+
+          {/* Repetible de experiencia en bases de datos */}
+          <div className="col-span-2">
+            <label className="block text-gray-700 text-sm font-bold mb-2">Experiencia en Bases de Datos:</label>
+            {formData.experienciaBD.map((exp, index) => (
+              <div key={index} className="flex items-center mb-2">
+                <select
+                  name="nombreBD"
+                  value={exp.nombreBD}
+                  onChange={(e) => handleChange(e, index, 'experienciaBD')}
+                  className="block appearance-none w-1/2 bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded-l leading-tight focus:outline-none focus:shadow-outline"
+                >
+                  <option value="">Seleccionar Base de Datos</option>
+                  {options.experienciaBD.map((opt, i) => (
+                    <option key={i} value={opt}>{opt}</option>
+                  ))}
+                </select>
+                <select
+                  name="nivel"
+                  value={exp.nivel}
+                  onChange={(e) => handleChange(e, index, 'experienciaBD')}
+                  className="block appearance-none w-1/2 bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded-r leading-tight focus:outline-none focus:shadow-outline"
+                >
+                  <option value="Básico">Básico</option>
+                  <option value="Intermedio">Intermedio</option>
+                  <option value="Avanzado">Avanzado</option>
+                </select>
+                <button
+                  type="button"
+                  onClick={() => handleRemoveField('experienciaBD', index)}
+                  className="ml-2 bg-red-500 text-white px-3 py-1 rounded"
+                >
+                  Eliminar
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={() => handleAddField('experienciaBD')}
+              className="bg-blue-500 text-white px-3 py-1 rounded mt-2"
+            >
+              Añadir Base de Datos
+            </button>
+          </div>
+
+          {/* Repetible de experiencia en sistemas operativos */}
+          <div className="col-span-2">
+            <label className="block text-gray-700 text-sm font-bold mb-2">Experiencia en Sistemas Operativos:</label>
+            {formData.experienciaSO.map((exp, index) => (
+              <div key={index} className="flex items-center mb-2">
+                <select
+                  name="nombreSO"
+                  value={exp.nombreSO}
+                  onChange={(e) => handleChange(e, index, 'experienciaSO')}
+                  className="block appearance-none w-1/2 bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded-l leading-tight focus:outline-none focus:shadow-outline"
+                >
+                  <option value="">Seleccionar Sistema Operativo</option>
+                  {options.experienciaSO.map((opt, i) => (
+                    <option key={i} value={opt}>{opt}</option>
+                  ))}
+                </select>
+                <select
+                  name="nivel"
+                  value={exp.nivel}
+                  onChange={(e) => handleChange(e, index, 'experienciaSO')}
+                  className="block appearance-none w-1/2 bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded-r leading-tight focus:outline-none focus:shadow-outline"
+                >
+                  <option value="Básico">Básico</option>
+                  <option value="Intermedio">Intermedio</option>
+                  <option value="Avanzado">Avanzado</option>
+                </select>
+                <button
+                  type="button"
+                  onClick={() => handleRemoveField('experienciaSO', index)}
+                  className="ml-2 bg-red-500 text-white px-3 py-1 rounded"
+                >
+                  Eliminar
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={() => handleAddField('experienciaSO')}
+              className="bg-blue-500 text-white px-3 py-1 rounded mt-2"
+            >
+              Añadir Sistema Operativo
+            </button>
+          </div>
+
+          {/* Repetible de experiencia en habilidades generales */}
+          <div className="col-span-2">
+            <label className="block text-gray-700 text-sm font-bold mb-2">Experiencia en Habilidades Generales:</label>
+            {formData.experienciaHG.map((exp, index) => (
+              <div key={index} className="flex items-center mb-2">
+                <select
+                  name="nombreHG"
+                  value={exp.nombreHG}
+                  onChange={(e) => handleChange(e, index, 'experienciaHG')}
+                  className="block appearance-none w-1/2 bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded-l leading-tight focus:outline-none focus:shadow-outline"
+                >
+                  <option value="">Seleccionar Habilidad General</option>
+                  {options.experienciaHG.map((opt, i) => (
+                    <option key={i} value={opt}>{opt}</option>
+                  ))}
+                </select>
+                <select
+                  name="nivel"
+                  value={exp.nivel}
+                  onChange={(e) => handleChange(e, index, 'experienciaHG')}
+                  className="block appearance-none w-1/2 bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded-r leading-tight focus:outline-none focus:shadow-outline"
+                >
+                  <option value="Básico">Básico</option>
+                  <option value="Intermedio">Intermedio</option>
+                  <option value="Avanzado">Avanzado</option>
+                </select>
+                <button
+                  type="button"
+                  onClick={() => handleRemoveField('experienciaHG', index)}
+                  className="ml-2 bg-red-500 text-white px-3 py-1 rounded"
+                >
+                  Eliminar
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={() => handleAddField('experienciaHG')}
+              className="bg-blue-500 text-white px-3 py-1 rounded mt-2"
+            >
+              Añadir Habilidad General
+            </button>
+          </div>
+
+          {/* Otros campos de texto */}
+          <div className="col-span-2 mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="experienciaendesarrollo">Intereses:</label>
+            <input
+              value={formData.experienciaendesarrollo}
+              className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="experienciaendesarrollo"
+              name="experienciaendesarrollo"
+              type="text"
+              placeholder="Ingresar intereses"
+              onChange={handleChange}
+            />
+          </div>
+          <div className="col-span-2 mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="experienciaEnAdministracionyGestiondeSistemas">Aspiraciones:</label>
+            <input
+              value={formData.experienciaEnAdministracionyGestiondeSistemas}
+              className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="experienciaEnAdministracionyGestiondeSistemas"
+              name="experienciaEnAdministracionyGestiondeSistemas"
+              type="text"
+              placeholder="Ingresar aspiraciones"
+              onChange={handleChange}
+            />
+          </div>
+          <div className="col-span-2 mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="debilidadTEC">Logros:</label>
+            <input
+              value={formData.debilidadTEC}
+              className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="debilidadTEC"
+              name="debilidadTEC"
+              type="text"
+              placeholder="Ingresar logros"
+              onChange={handleChange}
+            />
+          </div>
+          <div className="col-span-2 mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="conocimientoTec">Conocimientos:</label>
+            <input
+              value={formData.conocimientoTec}
+              className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="conocimientoTec"
+              name="conocimientoTec"
+              type="text"
+              placeholder="Ingresar Conocimientos"
+              onChange={handleChange}
             />
           </div>
         </div>
-        <h2 className="text-2xl font-bold text-center my-5">Experiencia</h2>
-        <div className="space-y-4">
-          {formData.experienciaLP.map((exp, index) => (
-            <div key={index} className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor={`experienciaLP-${index}-nombreLP`}>Lenguaje de programación:</label>
-              <select
-                value={exp.nombreLP}
-                className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id={`experienciaLP-${index}-nombreLP`}
-                name="nombreLP"
-                onChange={(e) => handleChange(e, index, 'experienciaLP')}
-              >
-                <option value="">Seleccionar lenguaje</option>
-                {options.experienciaLP.map((option, i) => (
-                  <option key={i} value={option}>{option}</option>
-                ))}
-              </select>
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor={`experienciaLP-${index}-nivel`}>Nivel:</label>
-              <select
-                value={exp.nivel}
-                className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id={`experienciaLP-${index}-nivel`}
-                name="nivel"
-                onChange={(e) => handleChange(e, index, 'experienciaLP')}
-              >
-                <option value="Básico">Básico</option>
-                <option value="Intermedio">Intermedio</option>
-                <option value="Avanzado">Avanzado</option>
-              </select>
-              <button
-                type="button"
-                className="text-red-500 mt-2"
-                onClick={() => handleRemoveField('experienciaLP', index)}
-              >
-                Eliminar
-              </button>
-            </div>
-          ))}
+
+        <div className="flex justify-center mt-8">
           <button
             type="button"
-            className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-            onClick={() => handleAddField('experienciaLP')}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            onClick={handleSubmit}
           >
-            Añadir experiencia en Lenguaje de Programación
+            Enviar
           </button>
         </div>
-
-        <div className="space-y-4 my-5">
-          {formData.experienciaBD.map((exp, index) => (
-            <div key={index} className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor={`experienciaBD-${index}-nombreBD`}>Base de datos:</label>
-              <select
-                value={exp.nombreBD}
-                className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id={`experienciaBD-${index}-nombreBD`}
-                name="nombreBD"
-                onChange={(e) => handleChange(e, index, 'experienciaBD')}
-              >
-                <option value="">Seleccionar base de datos</option>
-                {options.experienciaBD.map((option, i) => (
-                  <option key={i} value={option}>{option}</option>
-                ))}
-              </select>
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor={`experienciaBD-${index}-nivel`}>Nivel:</label>
-              <select
-                value={exp.nivel}
-                className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id={`experienciaBD-${index}-nivel`}
-                name="nivel"
-                onChange={(e) => handleChange(e, index, 'experienciaBD')}
-              >
-                <option value="Básico">Básico</option>
-                <option value="Intermedio">Intermedio</option>
-                <option value="Avanzado">Avanzado</option>
-              </select>
-              <button
-                type="button"
-                className="text-red-500 mt-2"
-                onClick={() => handleRemoveField('experienciaBD', index)}
-              >
-                Eliminar
-              </button>
-            </div>
-          ))}
-          <button
-            type="button"
-            className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-            onClick={() => handleAddField('experienciaBD')}
-          >
-            Añadir experiencia en Base de Datos
-          </button>
-        </div>
-
-        <div className="space-y-4 my-5">
-          {formData.experienciaSO.map((exp, index) => (
-            <div key={index} className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor={`experienciaSO-${index}-nombreSO`}>Sistema operativo:</label>
-              <select
-                value={exp.nombreSO}
-                className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id={`experienciaSO-${index}-nombreSO`}
-                name="nombreSO"
-                onChange={(e) => handleChange(e, index, 'experienciaSO')}
-              >
-                <option value="">Seleccionar sistema operativo</option>
-                {options.experienciaSO.map((option, i) => (
-                  <option key={i} value={option}>{option}</option>
-                ))}
-              </select>
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor={`experienciaSO-${index}-nivel`}>Nivel:</label>
-              <select
-                value={exp.nivel}
-                className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id={`experienciaSO-${index}-nivel`}
-                name="nivel"
-                onChange={(e) => handleChange(e, index, 'experienciaSO')}
-              >
-                <option value="Básico">Básico</option>
-                <option value="Intermedio">Intermedio</option>
-                <option value="Avanzado">Avanzado</option>
-              </select>
-              <button
-                type="button"
-                className="text-red-500 mt-2"
-                onClick={() => handleRemoveField('experienciaSO', index)}
-              >
-                Eliminar
-              </button>
-            </div>
-          ))}
-          <button
-            type="button"
-            className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-            onClick={() => handleAddField('experienciaSO')}
-          >
-            Añadir experiencia en Sistema Operativo
-          </button>
-        </div>
-
-        <div className="space-y-4 my-5">
-          {formData.experienciaHG.map((exp, index) => (
-            <div key={index} className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor={`experienciaHG-${index}-nombreHG`}>Herramienta o Gestión:</label>
-              <select
-                value={exp.nombreHG}
-                className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id={`experienciaHG-${index}-nombreHG`}
-                name="nombreHG"
-                onChange={(e) => handleChange(e, index, 'experienciaHG')}
-              >
-                <option value="">Seleccionar herramienta</option>
-                {options.experienciaHG.map((option, i) => (
-                  <option key={i} value={option}>{option}</option>
-                ))}
-              </select>
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor={`experienciaHG-${index}-nivel`}>Nivel:</label>
-              <select
-                value={exp.nivel}
-                className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id={`experienciaHG-${index}-nivel`}
-                name="nivel"
-                onChange={(e) => handleChange(e, index, 'experienciaHG')}
-              >
-                <option value="Básico">Básico</option>
-                <option value="Intermedio">Intermedio</option>
-                <option value="Avanzado">Avanzado</option>
-              </select>
-              <button
-                type="button"
-                className="text-red-500 mt-2"
-                onClick={() => handleRemoveField('experienciaHG', index)}
-              >
-                Eliminar
-              </button>
-            </div>
-          ))}
-          <button
-            type="button"
-            className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-            onClick={() => handleAddField('experienciaHG')}
-          >
-            Añadir experiencia en Herramienta de Gestión
-          </button>
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="experienciaendesarrollo">Experiencia en Desarrollo:</label>
-          <textarea
-            value={formData.experienciaendesarrollo}
-            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="experienciaendesarrollo"
-            name="experienciaendesarrollo"
-            rows="4"
-            placeholder="Describir experiencia en desarrollo"
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="conocimientoTec">Conocimientos Técnicos:</label>
-          <textarea
-            value={formData.conocimientoTec}
-            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="conocimientoTec"
-            name="conocimientoTec"
-            rows="4"
-            placeholder="Describir conocimientos técnicos"
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="experienciaEnAdministracionyGestiondeSistemas">Experiencia en Administración y Gestión de Sistemas:</label>
-          <textarea
-            value={formData.experienciaEnAdministracionyGestiondeSistemas}
-            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="experienciaEnAdministracionyGestiondeSistemas"
-            name="experienciaEnAdministracionyGestiondeSistemas"
-            rows="4"
-            placeholder="Describir experiencia en administración y gestión de sistemas"
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="debilidadTEC">Debilidades Técnicas:</label>
-          <textarea
-            value={formData.debilidadTEC}
-            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="debilidadTEC"
-            name="debilidadTEC"
-            rows="4"
-            placeholder="Describir debilidades técnicas"
-            onChange={handleChange}
-          />
-        </div>
-        <div className="flex justify-center">
-        <button
-          type="submit"
-          className="mx-auto w-auto p-4 rounded-lg bg-red-500 text-white text-2xl font-bold border-none cursor-pointer transition-colors duration-300 ease-in-out hover:bg-red-600"
-        >
-          Enviar
-        </button>
-        </div>
-        {responseMessage && (
-          <div className="mt-4 text-center">
-            <p className="text-green-500">{responseMessage}</p>
-          </div>
-        )}
       </form>
     </div>
   );
