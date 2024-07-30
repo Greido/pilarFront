@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import axios from "axios";
 import api from "../api";
 import "./css/global.css";
@@ -13,35 +13,42 @@ function Home() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
-    const token = Cookies.get("token");
-    console.log("Token obtenido de las cookies:", token)
-    setIsAuthenticated(!token); // Utiliza una conversión booleana para simplificar
+    const checkAuthentication = () => {
+      const token = Cookies.get('token');
+      console.log('Token obtenido de las cookies:', token);
+
+      if (token) {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
+    };
+    checkAuthentication();
   }, []);
-   
+
   useEffect(() => {
     if (isAuthenticated) {
-      const seeAll = async () => {
+      const fetchUsers = async () => {
         try {
-          const response = await api.get("/getallBD");
+          const response = await api.get('/getallBD');
           setUsers(response.data);
         } catch (error) {
-          console.error("Error al obtener los datos de la API:", error);
+          console.error('Error al obtener los datos de la API:', error);
         }
       };
-      seeAll();
+      fetchUsers();
     }
   }, [isAuthenticated]);
 
-
   const onLogout = () => {
-    Cookies.remove("jwt");
+    Cookies.remove('token', { path: '/' });
     setIsAuthenticated(false);
   };
 
   if (!isAuthenticated) {
-    
     return <div>No estás autenticado</div>;
   }
+
 
   return (
     <div className="min-h-screen bg-gray-200 flex flex-col lg:flex-row font-staatliches">

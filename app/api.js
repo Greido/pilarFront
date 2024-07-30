@@ -10,7 +10,7 @@ api.interceptors.request.use(
   (config) => {
     const token = Cookies.get("token"); // Asegúrate de que 'jwt' es el nombre de la cookie donde almacenas tu JWT
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers['Authorization'] = `Bearer ${token}`;
     }
     return config;
   },
