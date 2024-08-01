@@ -1,9 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
-
-function InformacionBasicaForm() {
+import Cookies from "js-cookie";
+function informacionBasicaForm() {
   const [formData, setFormData] = useState({
     name: "",
     surname: "",
@@ -21,62 +20,120 @@ function InformacionBasicaForm() {
     experienciaEnAdministracionyGestiondeSistemas: "",
     debilidadTEC: "",
   });
-  const [id, setId] = useState('');
 
-  const [responseMessage, setResponseMessage] = useState("");
   const [options, setOptions] = useState({
-    experienciaLP: ['Java', 'C#', 'VisualBasic', 'NET', 'JavaScript', 'HTML/CSS', 'C/C++', 'Python', 'PHP'],
-    experienciaBD: ['SQL Server', 'PostgreSQL', 'MongoDB', 'Oracle', 'MySQL'],
-    experienciaSO: ['Linux', 'iOS', 'Windows Server', 'Android'],
-    experienciaHG: ['Sistema de Información Geográfico', 'Computación en la Nube', 'Project Management Institute', 'Repositorio en la Nube', 'Metodologías Ágiles'],
+    experienciaLP: [
+      "Java",
+      "C#",
+      "VisualBasic",
+      "NET",
+      "JavaScript",
+      "HTML/CSS",
+      "C/C++",
+      "Python",
+      "PHP",
+    ],
+    experienciaBD: ["SQL Server", "PostgreSQL", "MongoDB", "Oracle", "MySQL"],
+    experienciaSO: ["Linux", "iOS", "Windows Server", "Android"],
+    experienciaHG: [
+      "Sistema de Información Geográfico",
+      "Computación en la Nube",
+      "Project Management Institute",
+      "Repositorio en la Nube",
+      "Metodologías Ágiles",
+    ],
   });
 
-  
   useEffect(() => {
     const fetchOptions = async () => {
       try {
         const response = await axios.get("http://localhost:4000/api/options");
         setOptions(response.data);
       } catch (error) {
-        console.error('Error fetching options:', error);
+        console.error("Error fetching options:", error);
       }
     };
 
-
- 
     fetchOptions();
-  
-
-   
   }, []);
 
+  const [id, setId] = useState(null);
+const [token, setToken] = useState(null);
 
 
-  useEffect(() => {
-    if (!id) return;
-    const apiUrl = `http://localhost:4000/api/getoneBD/${id}`
-    const fetchData = async () => {
+const getToken = () => {
+  return Cookies.get("token");
+};
+
+// Esta función se puede ajustar para decodificar el token y obtener el ID del usuario
+const decodeToken = (token) => {
+  // Lógica para decodificar el token y obtener el ID
+  // Por ejemplo, si el token es un JWT, puedes decodificarlo
+  // Nota: Debes tener en cuenta la seguridad y validación del token
+  const payload = JSON.parse(atob(token.split('.')[1]));
+  return payload.id; // Asumiendo que el ID está en el payload
+};
+
+useEffect(() => {
+  const token = getToken();
+  if (token) {
+    setToken(token);
+    const userId = decodeToken(token);
+    if (userId) {
+      setId(userId);
+    }
+  }
+}, []);
+
+useEffect(() => {
+  if (id && token) {
+    const fetchUserData = async () => {
       try {
-        const response = await axios.get(apiUrl);
+        const response = await fetch(`http://localhost:4000/api/getoneBD/${id}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error(`Error en la respuesta del servidor: ${response.statusText}`);
         }
 
-        setFormData({
-          name: data.nombre,
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          throw new TypeError("La respuesta no es un JSON válido");
+        }
+
+        const data = await response.json();
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          name: data.name,
           surname: data.surname,
-          localidad: localidad.data,
-          phone: phone.data,
-          email:email.data,
-        });  // Asegúrate de que `response.data` contiene los datos correctos
+          localidad: data.localidad,
+          phone: data.phone,
+          email: data.email,
+          educacion: data.educacion,
+          fechaNacimiento: data.fechaNacimiento,
+          experienciaLP: data.experienciaLP,
+          experienciaBD: data.experienciaBD,
+          // experienciaSO: data.experienciaSO,
+          experienciaHG: data.experienciaHG,
+          experienciaendesarrollo: data.experienciaendesarrollo,
+          conocimientoTec: data.conocimientoTec,
+          experienciaEnAdministracionyGestiondeSistemas: data.experienciaEnAdministracionyGestiondeSistemas,
+          debilidadTEC: data.debilidadTEC,
+          // Otros campos si es necesario
+          // Otros campos si es necesario
+        }));
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error al obtener los datos del usuario:", error);
       }
     };
 
-    fetchData();
-  }, []);
-
+    fetchUserData();
+  }
+}, [id, token]);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -85,7 +142,6 @@ function InformacionBasicaForm() {
     });
   };
 
- 
   const handleAddField = (field) => {
     setFormData({
       ...formData,
@@ -100,54 +156,59 @@ function InformacionBasicaForm() {
     });
   };
 
-
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Función para formatear la fecha
     const formatDate = (dateString) => {
-      const [day, month, year] = dateString.split('/');
+      const [day, month, year] = dateString.split("/");
       return new Date(`${year}-${month}-${day}`);
     };
 
-    // Actualiza los datos del formulario con los formatos correctos
     const updatedFormData = {
       ...formData,
       fechaNacimiento: formatDate(formData.fechaNacimiento),
-      experienciaLP: formData.experienciaLP.map(exp => ({
-        nombreLP: exp.nombreLP || '',
-        nivel: exp.nivel || 'Básico'
+      experienciaLP: formData.experienciaLP.map((exp) => ({
+        nombreLP: exp.nombreLP || "",
+        nivel: exp.nivel || "Básico",
       })),
-      experienciaBD: formData.experienciaBD.map(exp => ({
-        nombreBD: exp.nombreBD || '',
-        nivel: exp.nivel || 'Básico'
+      experienciaBD: formData.experienciaBD.map((exp) => ({
+        nombreBD: exp.nombreBD || "",
+        nivel: exp.nivel || "Básico",
       })),
-      experienciaSO: formData.experienciaSO.map(exp => ({
-        nombreSO: exp.nombreSO || '',
-        nivel: exp.nivel || 'Básico'
+      experienciaSO: formData.experienciaSO.map((exp) => ({
+        nombreSO: exp.nombreSO || "",
+        nivel: exp.nivel || "Básico",
       })),
-      experienciaHG: formData.experienciaHG.map(exp => ({
-        nombreHG: exp.nombreHG || '',
-        nivel: exp.nivel || 'Básico'
+      experienciaHG: formData.experienciaHG.map((exp) => ({
+        nombreHG: exp.nombreHG || "",
+        nivel: exp.nivel || "Básico",
       })),
-      conocimientoTec: formData.conocimientoTec || '',
-      experienciaendesarrollo: formData.experienciaendesarrollo || '',
-      experienciaEnAdministracionyGestiondeSistemas: formData.experienciaEnAdministracionyGestiondeSistemas || '',
-      debilidadTEC: formData.debilidadTEC || '',
+      conocimientoTec: formData.conocimientoTec || "",
+      experienciaendesarrollo: formData.experienciaendesarrollo || "",
+      experienciaEnAdministracionyGestiondeSistemas:
+        formData.experienciaEnAdministracionyGestiondeSistemas || "",
+      debilidadTEC: formData.debilidadTEC || "",
     };
 
     try {
-      const response = await axios.post("http://localhost:4000/api/createBasicData", updatedFormData,  {
-        withCredentials: true, // Importante para enviar cookies
-      });
+      const response = await axios.post(
+        "http://localhost:4000/api/createBasicData",
+        updatedFormData,
+        {
+          withCredentials: true,
+        }
+      );
       console.log(response.data);
       setResponseMessage("Datos básicos creados y asociados exitosamente!");
     } catch (error) {
-      console.error('Error en el envío de datos:', error.response ? error.response.data : error);
+      console.error(
+        "Error en el envío de datos:",
+        error.response ? error.response.data : error
+      );
       if (error.response) {
-        setResponseMessage(`Error al crear datos básicos: ${error.response.data.error}`);
+        setResponseMessage(
+          `Error al crear datos básicos: ${error.response.data.error}`
+        );
       } else {
         setResponseMessage("Error al crear datos básicos.");
       }
@@ -155,117 +216,166 @@ function InformacionBasicaForm() {
   };
 
   return (
-    <div className="w-full min-h-screen p-5 bg-gray-200 overflow-y-auto">
-      <div className="w-full max-w-4xl mx-auto">
-        <h2 className="text-2xl font-bold text-center mb-5">Información Básica</h2>
-        <form onSubmit={handleSubmit} className="w-full bg-white p-6 rounded-lg shadow-md">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Campos de texto */}
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">Nombre:</label>
-          <input
-            value={formData.name}
-            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="name"
-            name="name"
-            type="text"
-            placeholder="Ingresar nombre"
-            onChange={handleChange}
-          />
+    <div className="max-w-xl mx-auto mt-10">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+      >
+        <h1 className="text-2xl font-bold mb-4">
+          Formulario de Experiencia en TI
+        </h1>
+
+        {/* Datos Personales */}
+        <div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="name"
+            >
+              Nombre:
+            </label>
+            <input
+              value={formData.name}
+              className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="name"
+              name="name"
+              type="text"
+              placeholder="Ingresar nombre"
+              onChange={handleChange}
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="surname"
+            >
+              Apellido:
+            </label>
+            <input
+              value={formData.surname}
+              className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="surname"
+              name="surname"
+              type="text"
+              placeholder="Ingresar apellido"
+              onChange={handleChange}
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="localidad"
+            >
+              Localidad:
+            </label>
+            <input
+              value={formData.localidad}
+              className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="localidad"
+              name="localidad"
+              type="text"
+              placeholder="Ingresar localidad"
+              onChange={handleChange}
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="phone"
+            >
+              Teléfono:
+            </label>
+            <input
+              value={formData.phone}
+              className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="phone"
+              name="phone"
+              type="text"
+              placeholder="Ingresar teléfono"
+              onChange={handleChange}
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="email"
+            >
+              Email:
+            </label>
+            <input
+              value={formData.email}
+              className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="email"
+              name="email"
+              type="email"
+              placeholder="Ingresar email"
+              onChange={handleChange}
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="educacion"
+            >
+              Educación:
+            </label>
+            <input
+              value={formData.educacion}
+              className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="educacion"
+              name="educacion"
+              type="text"
+              placeholder="Ingresar educación"
+              onChange={handleChange}
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="fechaNacimiento"
+            >
+              Fecha de Nacimiento (dd/mm/yyyy):
+            </label>
+            <input
+              value={formData.fechaNacimiento}
+              className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="fechaNacimiento"
+              name="fechaNacimiento"
+              type="text"
+              placeholder="Ingresar fecha de nacimiento"
+              onChange={handleChange}
+            />
+          </div>
         </div>
+
+        {/* Experiencia en Lenguajes de Programación */}
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="surname">Apellido:</label>
-          <input
-            value={formData.surname}
-            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="surname"
-            name="surname"
-            type="text"
-            placeholder="Ingresar apellido"
-            onChange={handleChange}
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="localidad">Localidad:</label>
-          <input
-            value={formData.localidad}
-            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="localidad"
-            name="localidad"
-            type="text"
-            placeholder="Ingresar localidad"
-            onChange={handleChange}
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="phone">Teléfono:</label>
-          <input
-            value={formData.phone}
-            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="phone"
-            name="phone"
-            type="text"
-            placeholder="Ingresar teléfono"
-            onChange={handleChange}
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">Email:</label>
-          <input
-            value={formData.email}
-            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="email"
-            name="email"
-            type="text"
-            placeholder="Ingresar email"
-            onChange={handleChange}
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="educacion">Educación:</label>
-          <input
-            value={formData.educacion}
-            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="educacion"
-            name="educacion"
-            type="text"
-            placeholder="Ingresar educación"
-            onChange={handleChange}
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="fechaNacimiento">Fecha de Nacimiento:</label>
-          <input
-            value={formData.fechaNacimiento}
-            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="fechaNacimiento"
-            name="fechaNacimiento"
-            type="text"
-            placeholder="Ingresar fecha de nacimiento (DD/MM/YYYY)"
-            onChange={handleChange}
-          />
-        </div>
-        {/* Repetible de experiencia en lenguajes de programación */}
-        <div className="col-span-2">
-          <label className="block text-gray-700 text-sm font-bold mb-2">Experiencia en Lenguajes de Programación:</label>
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="experienciaLP"
+          >
+            Experiencia en Lenguajes de Programación:
+          </label>
           {formData.experienciaLP.map((exp, index) => (
-            <div key={index} className="flex items-center mb-2">
+            <div key={index} className="grid grid-cols-2 gap-4 mb-4">
               <select
                 name="nombreLP"
                 value={exp.nombreLP}
-                onChange={(e) => handleChange(e, index, 'experienciaLP')}
-                className="block appearance-none w-1/2 bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded-l leading-tight focus:outline-none focus:shadow-outline"
+                onChange={(e) => handleChange(e, index, "experienciaLP")}
+                className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               >
-                <option value="">Seleccionar Lenguaje</option>
-                {options.experienciaLP.map((opt, i) => (
-                  <option key={i} value={opt}>{opt}</option>
+                <option value="">Seleccionar lenguaje</option>
+                {options.experienciaLP.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
                 ))}
               </select>
               <select
                 name="nivel"
                 value={exp.nivel}
-                onChange={(e) => handleChange(e, index, 'experienciaLP')}
-                className="block appearance-none w-1/2 bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded-r leading-tight focus:outline-none focus:shadow-outline"
+                onChange={(e) => handleChange(e, index, "experienciaLP")}
+                className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               >
                 <option value="Básico">Básico</option>
                 <option value="Intermedio">Intermedio</option>
@@ -273,8 +383,8 @@ function InformacionBasicaForm() {
               </select>
               <button
                 type="button"
-                onClick={() => handleRemoveField('experienciaLP', index)}
-                className="ml-2 bg-red-500 text-white px-3 py-1 rounded"
+                onClick={() => handleRemoveField("experienciaLP", index)}
+                className="bg-red-500 text-white px-2 py-1 rounded"
               >
                 Eliminar
               </button>
@@ -282,34 +392,41 @@ function InformacionBasicaForm() {
           ))}
           <button
             type="button"
-            onClick={() => handleAddField('experienciaLP')}
-            className="bg-blue-500 text-white px-3 py-1 rounded mt-2"
+            onClick={() => handleAddField("experienciaLP")}
+            className="bg-blue-500 text-white px-2 py-1 rounded"
           >
-            Añadir Lenguaje
+            Agregar Lenguaje
           </button>
         </div>
 
-        {/* Repetible de experiencia en bases de datos */}
-        <div className="col-span-2">
-          <label className="block text-gray-700 text-sm font-bold mb-2">Experiencia en Bases de Datos:</label>
+        {/* Experiencia en Bases de Datos */}
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="experienciaBD"
+          >
+            Experiencia en Bases de Datos:
+          </label>
           {formData.experienciaBD.map((exp, index) => (
-            <div key={index} className="flex items-center mb-2">
+            <div key={index} className="grid grid-cols-2 gap-4 mb-4">
               <select
                 name="nombreBD"
                 value={exp.nombreBD}
-                onChange={(e) => handleChange(e, index, 'experienciaBD')}
-                className="block appearance-none w-1/2 bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded-l leading-tight focus:outline-none focus:shadow-outline"
+                onChange={(e) => handleChange(e, index, "experienciaBD")}
+                className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               >
-                <option value="">Seleccionar Base de Datos</option>
-                {options.experienciaBD.map((opt, i) => (
-                  <option key={i} value={opt}>{opt}</option>
+                <option value="">Seleccionar base de datos</option>
+                {options.experienciaBD.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
                 ))}
               </select>
               <select
                 name="nivel"
                 value={exp.nivel}
-                onChange={(e) => handleChange(e, index, 'experienciaBD')}
-                className="block appearance-none w-1/2 bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded-r leading-tight focus:outline-none focus:shadow-outline"
+                onChange={(e) => handleChange(e, index, "experienciaBD")}
+                className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               >
                 <option value="Básico">Básico</option>
                 <option value="Intermedio">Intermedio</option>
@@ -317,8 +434,8 @@ function InformacionBasicaForm() {
               </select>
               <button
                 type="button"
-                onClick={() => handleRemoveField('experienciaBD', index)}
-                className="ml-2 bg-red-500 text-white px-3 py-1 rounded"
+                onClick={() => handleRemoveField("experienciaBD", index)}
+                className="bg-red-500 text-white px-2 py-1 rounded"
               >
                 Eliminar
               </button>
@@ -326,34 +443,41 @@ function InformacionBasicaForm() {
           ))}
           <button
             type="button"
-            onClick={() => handleAddField('experienciaBD')}
-            className="bg-blue-500 text-white px-3 py-1 rounded mt-2"
+            onClick={() => handleAddField("experienciaBD")}
+            className="bg-blue-500 text-white px-2 py-1 rounded"
           >
-            Añadir Base de Datos
+            Agregar Base de Datos
           </button>
         </div>
 
-        {/* Repetible de experiencia en sistemas operativos */}
-        <div className="col-span-2">
-          <label className="block text-gray-700 text-sm font-bold mb-2">Experiencia en Sistemas Operativos:</label>
+        {/* Experiencia en Sistemas Operativos */}
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="experienciaSO"
+          >
+            Experiencia en Sistemas Operativos:
+          </label>
           {formData.experienciaSO.map((exp, index) => (
-            <div key={index} className="flex items-center mb-2">
+            <div key={index} className="grid grid-cols-2 gap-4 mb-4">
               <select
                 name="nombreSO"
                 value={exp.nombreSO}
-                onChange={(e) => handleChange(e, index, 'experienciaSO')}
-                className="block appearance-none w-1/2 bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded-l leading-tight focus:outline-none focus:shadow-outline"
+                onChange={(e) => handleChange(e, index, "experienciaSO")}
+                className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               >
-                <option value="">Seleccionar Sistema Operativo</option>
-                {options.experienciaSO.map((opt, i) => (
-                  <option key={i} value={opt}>{opt}</option>
+                <option value="">Seleccionar sistema operativo</option>
+                {options.experienciaSO.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
                 ))}
               </select>
               <select
                 name="nivel"
                 value={exp.nivel}
-                onChange={(e) => handleChange(e, index, 'experienciaSO')}
-                className="block appearance-none w-1/2 bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded-r leading-tight focus:outline-none focus:shadow-outline"
+                onChange={(e) => handleChange(e, index, "experienciaSO")}
+                className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               >
                 <option value="Básico">Básico</option>
                 <option value="Intermedio">Intermedio</option>
@@ -361,8 +485,8 @@ function InformacionBasicaForm() {
               </select>
               <button
                 type="button"
-                onClick={() => handleRemoveField('experienciaSO', index)}
-                className="ml-2 bg-red-500 text-white px-3 py-1 rounded"
+                onClick={() => handleRemoveField("experienciaSO", index)}
+                className="bg-red-500 text-white px-2 py-1 rounded"
               >
                 Eliminar
               </button>
@@ -370,34 +494,41 @@ function InformacionBasicaForm() {
           ))}
           <button
             type="button"
-            onClick={() => handleAddField('experienciaSO')}
-            className="bg-blue-500 text-white px-3 py-1 rounded mt-2"
+            onClick={() => handleAddField("experienciaSO")}
+            className="bg-blue-500 text-white px-2 py-1 rounded"
           >
-            Añadir Sistema Operativo
+            Agregar Sistema Operativo
           </button>
         </div>
 
-        {/* Repetible de experiencia en habilidades generales */}
-        <div className="col-span-2">
-          <label className="block text-gray-700 text-sm font-bold mb-2">Experiencia en Habilidades Generales:</label>
+        {/* Experiencia en Herramientas de Gestión */}
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="experienciaHG"
+          >
+            Experiencia en Herramientas de Gestión:
+          </label>
           {formData.experienciaHG.map((exp, index) => (
-            <div key={index} className="flex items-center mb-2">
+            <div key={index} className="grid grid-cols-2 gap-4 mb-4">
               <select
                 name="nombreHG"
                 value={exp.nombreHG}
-                onChange={(e) => handleChange(e, index, 'experienciaHG')}
-                className="block appearance-none w-1/2 bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded-l leading-tight focus:outline-none focus:shadow-outline"
+                onChange={(e) => handleChange(e, index, "experienciaHG")}
+                className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               >
-                <option value="">Seleccionar Habilidad General</option>
-                {options.experienciaHG.map((opt, i) => (
-                  <option key={i} value={opt}>{opt}</option>
+                <option value="">Seleccionar herramienta</option>
+                {options.experienciaHG.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
                 ))}
               </select>
               <select
                 name="nivel"
                 value={exp.nivel}
-                onChange={(e) => handleChange(e, index, 'experienciaHG')}
-                className="block appearance-none w-1/2 bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded-r leading-tight focus:outline-none focus:shadow-outline"
+                onChange={(e) => handleChange(e, index, "experienciaHG")}
+                className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               >
                 <option value="Básico">Básico</option>
                 <option value="Intermedio">Intermedio</option>
@@ -405,8 +536,8 @@ function InformacionBasicaForm() {
               </select>
               <button
                 type="button"
-                onClick={() => handleRemoveField('experienciaHG', index)}
-                className="ml-2 bg-red-500 text-white px-3 py-1 rounded"
+                onClick={() => handleRemoveField("experienciaHG", index)}
+                className="bg-red-500 text-white px-2 py-1 rounded"
               >
                 Eliminar
               </button>
@@ -414,77 +545,97 @@ function InformacionBasicaForm() {
           ))}
           <button
             type="button"
-            onClick={() => handleAddField('experienciaHG')}
-            className="bg-blue-500 text-white px-3 py-1 rounded mt-2"
+            onClick={() => handleAddField("experienciaHG")}
+            className="bg-blue-500 text-white px-2 py-1 rounded"
           >
-            Añadir Habilidad General
+            Agregar Herramienta
           </button>
         </div>
 
-        {/* Otros campos de texto */}
-        <div className="col-span-2 mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="experienciaendesarrollo">Intereses:</label>
-          <input
+        {/* Experiencia en Desarrollo */}
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="experienciaendesarrollo"
+          >
+            Experiencia en Desarrollo:
+          </label>
+          <textarea
             value={formData.experienciaendesarrollo}
             className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="experienciaendesarrollo"
             name="experienciaendesarrollo"
-            type="text"
-            placeholder="Ingresar intereses"
+            placeholder="Ingresar experiencia en desarrollo"
             onChange={handleChange}
           />
         </div>
-        <div className="col-span-2 mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="experienciaEnAdministracionyGestiondeSistemas">Aspiraciones:</label>
-          <input
-            value={formData.experienciaEnAdministracionyGestiondeSistemas}
-            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="experienciaEnAdministracionyGestiondeSistemas"
-            name="experienciaEnAdministracionyGestiondeSistemas"
-            type="text"
-            placeholder="Ingresar aspiraciones"
-            onChange={handleChange}
-          />
-        </div>
-        <div className="col-span-2 mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="debilidadTEC">Logros:</label>
-          <input
-            value={formData.debilidadTEC}
-            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="debilidadTEC"
-            name="debilidadTEC"
-            type="text"
-            placeholder="Ingresar logros"
-            onChange={handleChange}
-          />
-        </div>
-        <div className="col-span-2 mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="conocimientoTec">Conocimientos:</label>
-          <input
+
+        {/* Conocimiento Técnico */}
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="conocimientoTec"
+          >
+            Conocimiento Técnico:
+          </label>
+          <textarea
             value={formData.conocimientoTec}
             className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="conocimientoTec"
             name="conocimientoTec"
-            type="text"
-            placeholder="Ingresar Conocimientos"
+            placeholder="Ingresar conocimiento técnico"
             onChange={handleChange}
           />
         </div>
-      </div>
 
-      <div className="flex justify-center mt-8">
-        <button
-          type="button"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          onClick={handleSubmit}
-        >
-          Enviar
-        </button>
-      </div>
-    </form>
-  </div>
-  </div>
-);
+        {/* Experiencia en Administración y Gestión de Sistemas */}
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="experienciaEnAdministracionyGestiondeSistemas"
+          >
+            Experiencia en Administración y Gestión de Sistemas:
+          </label>
+          <textarea
+            value={formData.experienciaEnAdministracionyGestiondeSistemas}
+            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="experienciaEnAdministracionyGestiondeSistemas"
+            name="experienciaEnAdministracionyGestiondeSistemas"
+            placeholder="Ingresar experiencia en administración y gestión de sistemas"
+            onChange={handleChange}
+          />
+        </div>
+
+        {/* Debilidad Técnica */}
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="debilidadTEC"
+          >
+            Debilidad Técnica:
+          </label>
+          <textarea
+            value={formData.debilidadTEC}
+            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="debilidadTEC"
+            name="debilidadTEC"
+            placeholder="Ingresar debilidad técnica"
+            onChange={handleChange}
+          />
+        </div>
+
+        {/* Submit Button */}
+        <div className="flex items-center justify-between">
+          <button
+            type="submit"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Guardar
+          </button>
+        </div>
+      </form>
+    </div>
+  );
 }
 
-export default InformacionBasicaForm;
+export default informacionBasicaForm;
