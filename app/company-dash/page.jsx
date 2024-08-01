@@ -4,7 +4,7 @@ import api from "../api";
 import "./css/global.css";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
-import enterproseProfile from "../enterpriseProfile/page";
+import EnterproseProfile from "../enterpriseProfile/page";
 function Dash() {
   const [users, setUsers] = useState([]);
   const [view, setView] = useState("Clientes");
@@ -72,14 +72,6 @@ function Dash() {
               Perfil
             </button>
             <button
-              onClick={() => setView("InformacionBasica")}
-              className={`text-lg px-4 py-2 block hover:bg-gray-500 ${
-                view === "InformacionBasica" ? "bg-white-800" : "bg-white-700"
-              } mt-2 w-full text-left`}
-            >
-              Información Básica
-            </button>
-            <button
               onClick={() => setView("CambiarContrasena")}
               className={`text-lg px-4 py-2 block hover:bg-gray-500 ${
                 view === "CambiarContrasena" ? "bg-white-800" : "bg-white-700"
@@ -94,22 +86,6 @@ function Dash() {
               } mt-2 w-full text-left`}
             >
               Notificaciones
-            </button>
-            <button
-              onClick={() => setView("SesionesActivas")}
-              className={`text-lg px-4 py-2 block hover:bg-gray-500 ${
-                view === "SesionesActivas" ? "bg-white-800" : "bg-white-700"
-              } mt-2 w-full text-left`}
-            >
-              Sesiones activas
-            </button>
-            <button
-              onClick={() => setView("BorrarCuenta")}
-              className={`text-lg px-4 py-2 block hover:bg-gray-500 ${
-                view === "BorrarCuenta" ? "bg-white-800" : "bg-white-700"
-              } mt-2 w-full text-left`}
-            >
-              Borrar cuenta
             </button>
           </nav>
           <a
@@ -175,7 +151,7 @@ function Dash() {
 
             {view === "enterproseProfile" && (
               <div className="bg-white shadow mt-5 p-5 rounded-lg">
-                <enterproseProfile />
+                <EnterproseProfile />
               </div>
             )}
           </div>
