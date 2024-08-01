@@ -1,30 +1,29 @@
 /* Importación de la fuente Staatliches */
-@import url("https://fonts.googleapis.com/css2?family=Staatliches&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
 
 /* Estilos generales de la página */
-body,
-html {
+body, html {
   height: 100%;
   margin: 0;
-  font-size: 12px;
+  font-size: 18px; /* Aumentar el tamaño de fuente */
   overflow: hidden;
 }
 
 .page-header {
   position: relative;
   width: 100%;
-  height: 180px;
+  height: 370px; /* Ajusta la altura del banner según sea necesario */
   background-color: #e5e7eb;
-  background-image: url("/img/banner.jpg");
+  background-image: url("/img/banner.jpg"); /* Asegúrate de que la ruta sea correcta */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   border-radius: 0.6rem;
-  margin-bottom: 0;
+  margin-bottom: 0rem; /* Espacio inferior */
 }
 
 .page-header::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
@@ -36,61 +35,61 @@ html {
 }
 
 .container {
-  min-height: calc(100vh - 204px);
+  min-height: calc(100vh - 204px); 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 12px;
+  padding: 30px; /* Aumentar el padding */
   background: #edf2f7;
-  margin-top: 0;
+  margin-top: -110px; /* Ajustar este valor para subir el login */
 }
 
 .card {
-  max-width: 520px;
+  max-width: 540px; /* Aumentar el tamaño máximo */
   width: 100%;
-  padding: 24px;
-  border-radius: 6px;
+  padding: 40px; /* Aumentar el padding */
+  border-radius: 8px; /* Ajustar el borde redondeado */
   background: #fff;
-  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1); 
   box-sizing: border-box;
   text-align: center;
-  font-family: "Staatliches", sans-serif;
-  overflow-y: auto;
+  font-family: 'Staatliches', sans-serif;
+  overflow-y: auto; 
 }
 
 .card img {
   display: block;
-  margin: 0 auto 12px;
-  height: 120px;
+  margin: 0 auto 30px; /* Aumentar el margen inferior */
+  height: 180px; /* Aumentar la altura de la imagen */
 }
 
 .card h2 {
   padding: 0;
-  font-size: 24px;
-  color: #ef4444;
-  margin-bottom: 6px;
+  font-size: 32px; /* Aumentar el tamaño de fuente */
+  color: #EF4444;
+  margin-bottom: 16px; /* Aumentar el margen inferior */
 }
 
 .form-group {
-  margin-bottom: 18px;
+  margin-bottom: 30px; /* Aumentar el margen inferior */
 }
 
 .form-group label {
   display: block;
-  font-size: 14px;
+  font-size: 18px; /* Aumentar el tamaño de fuente */
   color: #4b5563;
-  margin-bottom: 6px;
-  font-family: "Staatliches", sans-serif;
+  margin-bottom: 16px; /* Aumentar el margen inferior */
+  font-family: 'Staatliches', sans-serif;
 }
 
 .form-group input {
   width: 100%;
-  padding: 0.5em;
-  border-radius: 6px;
+  padding: 1em; /* Aumentar el padding */
+  border-radius: 6px; 
   border: 1px solid #d1d5db;
-  font-size: 11px;
-  box-sizing: border-box;
+  font-size: 16px; /* Aumentar el tamaño de fuente */
+  box-sizing: border-box; 
 }
 
 .form-group input:focus {
@@ -101,11 +100,11 @@ html {
 .forgot-password-link {
   display: block;
   color: #ef4444;
-  font-weight: 600;
+  font-weight: 600; 
   text-decoration: none;
-  margin-top: 18px;
-  font-size: 14px;
-  line-height: 1.3;
+  margin-top: 24px; /* Aumentar el margen superior */
+  font-size: 18px; /* Aumentar el tamaño de fuente */
+  line-height: 1.3; 
   text-align: center;
 }
 
@@ -115,11 +114,11 @@ html {
 
 .submit-button {
   width: 100%;
-  padding: 12px;
-  border-radius: 6px;
+  padding: 18px; /* Aumentar el padding */
+  border-radius: 6px; 
   background-color: #ef4444;
   color: white;
-  font-size: 13px;
+  font-size: 18px; /* Aumentar el tamaño de fuente */
   font-weight: 700;
   border: none;
   cursor: pointer;
@@ -131,14 +130,14 @@ html {
 }
 
 .footer-text {
-  margin-top: 12px;
-  font-size: 11px;
+  margin-top: 20px; /* Aumentar el margen superior */
+  font-size: 16px; /* Aumentar el tamaño de fuente */
   color: #9ca3af;
 }
 
 .footer-text a {
   color: #ef4444;
-  font-weight: 600;
+  font-weight: 600; 
   text-decoration: none;
 }
 
@@ -148,46 +147,46 @@ html {
 
 @media (max-width: 768px) {
   .container {
-    padding: 12px;
+    padding: 24px; /* Ajustar el padding */
   }
 
   .card {
-    max-width: 300px;
-    padding: 18px;
+    max-width: 360px; /* Ajustar el tamaño máximo */
+    padding: 30px; /* Ajustar el padding */
   }
 
   .card img {
-    height: 80px; /* Reducir aún más la altura de la imagen en dispositivos pequeños */
-    margin-bottom: 10px; /* Reducir el margen inferior de la imagen */
+    height: 150px; /* Ajustar la altura de la imagen */
+    margin-bottom: 24px; /* Ajustar el margen inferior */
   }
 
   .card h2 {
-    font-size: 18px; /* Reducir aún más el tamaño del título en dispositivos pequeños */
-    margin-bottom: 10px; /* Reducir el margen inferior del título */
+    font-size: 28px; /* Ajustar el tamaño de fuente */
+    margin-bottom: 16px; /* Ajustar el margen inferior */
   }
 
   .form-group label {
-    font-size: 12px; /* Reducir aún más el tamaño de la etiqueta en dispositivos pequeños */
-    margin-bottom: 5px; /* Reducir el margen inferior de la etiqueta */
+    font-size: 16px; /* Ajustar el tamaño de fuente */
+    margin-bottom: 12px; /* Ajustar el margen inferior */
   }
 
   .form-group input {
-    font-size: 9px; /* Reducir aún más el tamaño de fuente del input en dispositivos pequeños */
-    padding: 0.4em; /* Reducir aún más el padding */
+    font-size: 14px; /* Ajustar el tamaño de fuente */
+    padding: 0.75em; /* Ajustar el padding */
   }
 
   .forgot-password-link {
-    font-size: 12px; /* Reducir aún más el tamaño de fuente del enlace de olvido de contraseña */
-    margin-top: 10px; /* Reducir el margen superior */
+    font-size: 16px; /* Ajustar el tamaño de fuente */
+    margin-top: 18px; /* Ajustar el margen superior */
   }
 
   .submit-button {
-    font-size: 11px; /* Reducir aún más el tamaño de fuente del botón en dispositivos pequeños */
-    padding: 10px; /* Reducir el padding */
+    font-size: 16px; /* Ajustar el tamaño de fuente */
+    padding: 16px; /* Ajustar el padding */
   }
 
   .footer-text {
-    font-size: 10px; /* Reducir aún más el tamaño de fuente del texto de pie de página en dispositivos pequeños */
-    margin-top: 10px; /* Reducir el margen superior */
+    font-size: 14px; /* Ajustar el tamaño de fuente */
+    margin-top: 16px; /* Ajustar el margen superior */
   }
 }
